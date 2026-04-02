@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Социальная сеть | Общий блог</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        /* Header */
+        .header {
+            background: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .auth-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn {
+            padding: 8px 20px;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102,126,234,0.4);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1px solid #667eea;
+            color: #667eea;
+        }
+
+        .btn-outline:hover {
+            background: #667eea;
+            color: white;
+        }
+
+        .btn-danger {
+            background: #ff4757;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #ff3838;
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 0 20px;
+        }
+
+        /* Create Post Form */
+        .create-post {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .create-post textarea {
+            width: 100%;
+            min-height: 100px;
+            padding: 12px;
+            border: 1px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-family: inherit;
+            resize: vertical;
+        }
+
+        .media-upload {
+            margin: 15px 0;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .media-btn {
+            padding: 8px 15px;
+            background: #f0f0f0;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+
+        .media-preview {
+            margin: 10px 0;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .media-preview img, .media-preview video {
+            max-width: 200px;
+            max-height: 200px;
+            border-radius: 10px;
+        }
+
+        .post-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        /* Post Card */
+        .post {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .post-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .post-author {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+
+        .author-info h4 {
+            font-size: 1rem;
+            margin-bottom: 2px;
+        }
+
+        .author-info p {
+            font-size: 0.8rem;
+            color: #999;
+        }
+
+        .admin-badge {
+            background: #ff4757;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 0.7rem;
+            margin-left: 5px;
+        }
+
+        .post-content {
+            margin-bottom: 15px;
+        }
+
+        .post-text {
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .post-media {
+            margin: 15px 0;
+        }
+
+        .post-media img, .post-media video {
+            max-width: 100%;
+            max-height: 400px;
+            border-radius: 10px;
+        }
+
+        .post-stats {
+            display: flex;
+            gap: 20px;
+            padding: 10px 0;
+            border-top: 1px solid #f0f0f0;
+            border-bottom: 1px solid #f0f0f0;
+            margin-bottom: 10px;
+        }
+
+        .stat-btn {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            color: #666;
+            transition: all 0.3s;
+        }
+
+        .stat-btn:hover {
+            color: #667eea;
+        }
+
+        .stat-btn.liked {
+            color: #ff4757;
+        }
+
+        .comments-section {
+            margin-top: 15px;
+        }
+
+        .comment {
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            margin-bottom: 10px;
+        }
+
+        .comment-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+            font-size: 0.9rem;
+        }
+
+        .comment-author {
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .comment-text {
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        .add-comment {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .add-comment input {
+            flex: 1;
+            padding: 8px 12px;
+            border: 1px solid #e0e0e0;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+
+        .add-comment button {
+            padding: 8px 15px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 400px;
+        }
+
+        .modal-content input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #e0e0e0;
+            border-radius: 5px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+            }
+            
+            .post-media img, .post-media video {
+                max-height: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-content">
+            <div class="logo">📱 Социальная сеть</div>
+            <div class="auth-buttons" id="authButtons">
+                <button class="btn btn-outline" onclick="showLoginModal()">Войти</button>
+            </div>
+            <div class="user-info" id="userInfo" style="display: none;">
+                <span id="usernameDisplay"></span>
+                <button class="btn btn-outline" onclick="logout()">Выйти</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="container" id="mainContainer">
+        <div id="createPostArea" style="display: none;">
+            <div class="create-post">
+                <textarea id="postText" placeholder="Что у вас нового?"></textarea>
+                <div class="media-upload">
+                    <button class="media-btn" onclick="uploadImage()">📷 Добавить фото</button>
+                    <button class="media-btn" onclick="uploadVideo()">🎥 Добавить видео</button>
+                </div>
+                <div class="media-preview" id="mediaPreview"></div>
+                <div class="post-actions">
+                    <button class="btn btn-primary" onclick="createPost()">Опубликовать</button>
+                </div>
+            </div>
+        </div>
+        <div id="postsContainer"></div>
+    </div>
+
+    <!-- Login Modal -->
+    <div class="modal" id="loginModal">
+        <div class="modal-content">
+            <h3>Вход в аккаунт</h3>
+            <input type="text" id="loginUsername" placeholder="Имя пользователя">
+            <div style="display: flex; gap: 10px; margin-top: 20px;">
+                <button class="btn btn-primary" onclick="login()">Войти</button>
+                <button class="btn btn-outline" onclick="closeLoginModal()">Отмена</button>
+            </div>
+            <p style="margin-top: 15px; font-size: 0.8rem; color: #999;">
+                * Админ: логин "misha"
+            </p>
+        </div>
+    </div>
+
+    <script>
+        // Data storage
+        let posts = [];
+        let currentUser = null;
+        
+        // Load data from localStorage
+        function loadData() {
+            const savedPosts = localStorage.getItem('social_posts');
+            if (savedPosts) {
+                posts = JSON.parse(savedPosts);
+            } else {
+                // Demo posts
+                posts = [
+                    {
+                        id: Date.now(),
+                        author: 'misha',
+                        text: 'Добро пожаловать в нашу социальную сеть! Здесь вы можете публиковать посты, добавлять фото и видео, ставить лайки и комментировать. Админ: misha',
+                        media: null,
+                        mediaType: null,
+                        likes: [],
+                        comments: [],
+                        timestamp: Date.now() - 86400000
+                    }
+                ];
+                saveData();
+            }
+            renderPosts();
+        }
+        
+        function saveData() {
+            localStorage.setItem('social_posts', JSON.stringify(posts));
+        }
+        
+        // Current media for new post
+        let currentMedia = null;
+        let currentMediaType = null;
+        
+        function uploadImage() {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = 'image/*';
+            input.onchange = (e) => {
+                const file = e.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = (event) => {
+                        currentMedia = event.target.result;
+                        currentMediaType = 'image';
+                        document.getElementById('mediaPreview').innerHTML = `
+                            <div style="position: relative;">
+                                <img src="${currentMedia}" alt="Preview">
+                                <button onclick="removeMedia()" style="position: absolute; top: 5px; right: 5px; background: red; color: white; border: none; border-radius: 50%; width: 25px; height: 25px; cursor: pointer;">×</button>
+                            </div>
+                        `;
+                    };
+                    reader.readAsDataURL(file);
+                }
+            };
+            input.click();
+        }
+        
+        function uploadVideo() {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = 'video/*';
+            input.onchange = (e) => {
+                const file = e.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = (event) => {
+                        currentMedia = event.target.result;
+                        currentMediaType = 'video';
+                        document.getElementById('mediaPreview').innerHTML = `
+                            <div style="position: relative;">
+                                <video src="${currentMedia}" controls style="max-width: 200px;"></video>
+                                <button onclick="removeMedia()" style="position: absolute; top: 5px; right: 5px; background: red; color: white; border: none; border-radius: 50%; width: 25px; height: 25px; cursor: pointer;">×</button>
+                            </div>
+                        `;
+                    };
+                    reader.readAsDataURL(file);
+                }
+            };
+            input.click();
+        }
+        
+        function removeMedia() {
+            currentMedia = null;
+            currentMediaType = null;
+            document.getElementById('mediaPreview').innerHTML = '';
+        }
+        
+        function createPost() {
+            const text = document.getElementById('postText').value.trim();
+            if (!text && !currentMedia) {
+                alert('Напишите текст или добавьте медиа');
+                return;
+            }
+            
+            const newPost = {
+                id: Date.now(),
+                author: currentUser,
+                text: text,
+                media: currentMedia,
+                mediaType: currentMediaType,
+                likes: [],
+                comments: [],
+                timestamp: Date.now()
+            };
+            
+            posts.unshift(newPost);
+            saveData();
+            
+            // Reset form
+            document.getElementById('postText').value = '';
+            removeMedia();
+            
+            renderPosts();
+        }
+        
+        function likePost(postId) {
+            const post = posts.find(p => p.id === postId);
+            if (!post) return;
+            
+            const likeIndex = post.likes.indexOf(currentUser);
+            if (likeIndex === -1) {
+                post.likes.push(currentUser);
+            } else {
+                post.likes.splice(likeIndex, 1);
+            }
+            
+            saveData();
+            renderPosts();
+        }
+        
+        function addComment(postId) {
+            const input = document.getElementById(`comment-input-${postId}`);
+            const commentText = input.value.trim();
+            if (!commentText) return;
+            
+            const post = posts.find(p => p.id === postId);
+            if (post) {
+                post.comments.push({
+                    author: currentUser,
+                    text: commentText,
+                    timestamp: Date.now()
+                });
+                saveData();
+                input.value = '';
+                renderPosts();
+            }
+        }
+        
+        function deletePost(postId) {
+            if (currentUser !== 'misha') {
+                alert('Только администратор может удалять посты!');
+                return;
+            }
+            
+            if (confirm('Удалить этот пост?')) {
+                posts = posts.filter(p => p.id !== postId);
+                saveData();
+                renderPosts();
+            }
+        }
+        
+        function deleteComment(postId, commentIndex) {
+            if (currentUser !== 'misha') {
+                alert('Только администратор может удалять комментарии!');
+                return;
+            }
+            
+            const post = posts.find(p => p.id === postId);
+            if (post) {
+                post.comments.splice(commentIndex, 1);
+                saveData();
+                renderPosts();
+            }
+        }
+        
+        function formatTime(timestamp) {
+            const diff = Date.now() - timestamp;
+            const minutes = Math.floor(diff / 60000);
+            const hours = Math.floor(diff / 3600000);
+            const days = Math.floor(diff / 86400000);
+            
+            if (minutes < 1) return 'только что';
+            if (minutes < 60) return `${minutes} мин назад`;
+            if (hours < 24) return `${hours} ч назад`;
+            return `${days} дн назад`;
+        }
+        
+        function renderPosts() {
+            const container = document.getElementById('postsContainer');
+            if (!container) return;
+            
+            if (posts.length === 0) {
+                container.innerHTML = '<div style="text-align: center; padding: 50px; background: white; border-radius: 15px;">Нет постов. Будьте первым!</div>';
+                return;
+            }
+            
+            container.innerHTML = posts.map(post => `
+                <div class="post">
+                    <div class="post-header">
+                        <div class="post-author">
+                            <div class="avatar">${post.author[0].toUpperCase()}</div>
+                            <div class="author-info">
+                                <h4>
+                                    ${post.author}
+                                    ${post.author === 'misha' ? '<span class="admin-badge">Admin</span>' : ''}
+                                </h4>
+                                <p>${formatTime(post.timestamp)}</p>
+                            </div>
+                        </div>
+                        ${currentUser === 'misha' ? `<button class="btn btn-danger" onclick="deletePost(${post.id})" style="padding: 5px 10px; font-size: 0.8rem;">🗑️ Удалить</button>` : ''}
+                    </div>
+                    
+                    <div class="post-content">
+                        ${post.text ? `<div class="post-text">${escapeHtml(post.text)}</div>` : ''}
+                        ${post.media ? `
+                            <div class="post-media">
+                                ${post.mediaType === 'image' ? `<img src="${post.media}" alt="Post image">` : `<video src="${post.media}" controls></video>`}
+                            </div>
+                        ` : ''}
+                    </div>
+                    
+                    <div class="post-stats">
+                        <button class="stat-btn ${post.likes.includes(currentUser) ? 'liked' : ''}" onclick="likePost(${post.id})">
+                            ❤️ ${post.likes.length}
+                        </button>
+                        <button class="stat-btn">
+                            💬 ${post.comments.length}
+                        </button>
+                    </div>
+                    
+                    <div class="comments-section">
+                        ${post.comments.map((comment, idx) => `
+                            <div class="comment">
+                                <div class="comment-header">
+                                    <span class="comment-author">${comment.author}</span>
+                                    ${currentUser === 'misha' ? `<button onclick="deleteComment(${post.id}, ${idx})" style="background: none; border: none; color: red; cursor: pointer;">🗑️</button>` : ''}
+                                </div>
+                                <div class="comment-text">${escapeHtml(comment.text)}</div>
+                            </div>
+                        `).join('')}
+                        
+                        ${currentUser ? `
+                            <div class="add-comment">
+                                <input type="text" id="comment-input-${post.id}" placeholder="Написать комментарий...">
+                                <button onclick="addComment(${post.id})">➤</button>
+                            </div>
+                        ` : `
+                            <p style="color: #999; font-size: 0.8rem;">Войдите, чтобы комментировать</p>
+                        `}
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+        
+        // Auth functions
+        function showLoginModal() {
+            document.getElementById('loginModal').style.display = 'flex';
+        }
+        
+        function closeLoginModal() {
+            document.getElementById('loginModal').style.display = 'none';
+        }
+        
+        function login() {
+            const username = document.getElementById('loginUsername').value.trim();
+            if (!username) {
+                alert('Введите имя пользователя');
+                return;
+            }
+            
+            currentUser = username;
+            localStorage.setItem('social_user', currentUser);
+            
+            closeLoginModal();
+            updateUI();
+            renderPosts();
+        }
+        
+        function logout() {
+            currentUser = null;
+            localStorage.removeItem('social_user');
+            updateUI();
+            renderPosts();
+        }
+        
+        function updateUI() {
+            const authButtons = document.getElementById('authButtons');
+            const userInfo = document.getElementById('userInfo');
+            const createPostArea = document.getElementById('createPostArea');
+            const usernameDisplay = document.getElementById('usernameDisplay');
+            
+            if (currentUser) {
+                authButtons.style.display = 'none';
+                userInfo.style.display = 'flex';
+                userInfo.style.alignItems = 'center';
+                userInfo.style.gap = '10px';
+                usernameDisplay.innerHTML = `<strong>${currentUser}</strong> ${currentUser === 'misha' ? '👑' : ''}`;
+                createPostArea.style.display = 'block';
+            } else {
+                authButtons.style.display = 'flex';
+                userInfo.style.display = 'none';
+                createPostArea.style.display = 'none';
+            }
+        }
+        
+        // Check saved user
+        const savedUser = localStorage.getItem('social_user');
+        if (savedUser) {
+            currentUser = savedUser;
+            updateUI();
+        }
+        
+        // Load data
+        loadData();
+        
+        // Close modal on click outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('loginModal');
+            if (event.target === modal) {
+                closeLoginModal();
+            }
+        }
+    </script>
+</body>
+</html>
