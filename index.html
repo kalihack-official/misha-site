@@ -1,744 +1,533 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>Социальная сеть | Общий блог</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-        }
-
-        /* Header */
-        .header {
-            background: white;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-
-        .header-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 15px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 15px;
-        }
-
-        .logo {
-            font-size: 1.5rem;
-            font-weight: bold;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-        }
-
-        .auth-buttons {
-            display: flex;
-            gap: 10px;
-        }
-
-        .btn {
-            padding: 8px 20px;
-            border: none;
-            border-radius: 20px;
-            cursor: pointer;
-            font-size: 0.9rem;
-            transition: all 0.3s;
-        }
-
-        .btn-primary {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(102,126,234,0.4);
-        }
-
-        .btn-outline {
-            background: transparent;
-            border: 1px solid #667eea;
-            color: #667eea;
-        }
-
-        .btn-outline:hover {
-            background: #667eea;
-            color: white;
-        }
-
-        .btn-danger {
-            background: #ff4757;
-            color: white;
-        }
-
-        .btn-danger:hover {
-            background: #ff3838;
-        }
-
-        /* Main Container */
-        .container {
-            max-width: 800px;
-            margin: 20px auto;
-            padding: 0 20px;
-        }
-
-        /* Create Post Form */
-        .create-post {
-            background: white;
-            border-radius: 15px;
-            padding: 20px;
-            margin-bottom: 20px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-
-        .create-post textarea {
-            width: 100%;
-            min-height: 100px;
-            padding: 12px;
-            border: 1px solid #e0e0e0;
-            border-radius: 10px;
-            font-size: 1rem;
-            font-family: inherit;
-            resize: vertical;
-        }
-
-        .media-upload {
-            margin: 15px 0;
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-
-        .media-btn {
-            padding: 8px 15px;
-            background: #f0f0f0;
-            border: none;
-            border-radius: 20px;
-            cursor: pointer;
-            font-size: 0.9rem;
-        }
-
-        .media-preview {
-            margin: 10px 0;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-
-        .media-preview img, .media-preview video {
-            max-width: 200px;
-            max-height: 200px;
-            border-radius: 10px;
-        }
-
-        .post-actions {
-            display: flex;
-            justify-content: flex-end;
-            gap: 10px;
-            margin-top: 10px;
-        }
-
-        /* Post Card */
-        .post {
-            background: white;
-            border-radius: 15px;
-            padding: 20px;
-            margin-bottom: 20px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            animation: fadeIn 0.5s ease;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .post-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid #f0f0f0;
-        }
-
-        .post-author {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: bold;
-        }
-
-        .author-info h4 {
-            font-size: 1rem;
-            margin-bottom: 2px;
-        }
-
-        .author-info p {
-            font-size: 0.8rem;
-            color: #999;
-        }
-
-        .admin-badge {
-            background: #ff4757;
-            color: white;
-            padding: 2px 8px;
-            border-radius: 10px;
-            font-size: 0.7rem;
-            margin-left: 5px;
-        }
-
-        .post-content {
-            margin-bottom: 15px;
-        }
-
-        .post-text {
-            line-height: 1.6;
-            margin-bottom: 15px;
-        }
-
-        .post-media {
-            margin: 15px 0;
-        }
-
-        .post-media img, .post-media video {
-            max-width: 100%;
-            max-height: 400px;
-            border-radius: 10px;
-        }
-
-        .post-stats {
-            display: flex;
-            gap: 20px;
-            padding: 10px 0;
-            border-top: 1px solid #f0f0f0;
-            border-bottom: 1px solid #f0f0f0;
-            margin-bottom: 10px;
-        }
-
-        .stat-btn {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            background: none;
-            border: none;
-            cursor: pointer;
-            font-size: 1rem;
-            color: #666;
-            transition: all 0.3s;
-        }
-
-        .stat-btn:hover {
-            color: #667eea;
-        }
-
-        .stat-btn.liked {
-            color: #ff4757;
-        }
-
-        .comments-section {
-            margin-top: 15px;
-        }
-
-        .comment {
-            padding: 10px;
-            background: #f8f9fa;
-            border-radius: 10px;
-            margin-bottom: 10px;
-        }
-
-        .comment-header {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 5px;
-            font-size: 0.9rem;
-        }
-
-        .comment-author {
-            font-weight: bold;
-            color: #667eea;
-        }
-
-        .comment-text {
-            font-size: 0.9rem;
-            line-height: 1.4;
-        }
-
-        .add-comment {
-            display: flex;
-            gap: 10px;
-            margin-top: 10px;
-        }
-
-        .add-comment input {
-            flex: 1;
-            padding: 8px 12px;
-            border: 1px solid #e0e0e0;
-            border-radius: 20px;
-            font-size: 0.9rem;
-        }
-
-        .add-comment button {
-            padding: 8px 15px;
-            background: #667eea;
-            color: white;
-            border: none;
-            border-radius: 20px;
-            cursor: pointer;
-        }
-
-        /* Modal */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.5);
-            z-index: 1000;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .modal-content {
-            background: white;
-            padding: 30px;
-            border-radius: 15px;
-            width: 90%;
-            max-width: 400px;
-        }
-
-        .modal-content input {
-            width: 100%;
-            padding: 10px;
-            margin: 10px 0;
-            border: 1px solid #e0e0e0;
-            border-radius: 5px;
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .header-content {
-                flex-direction: column;
-            }
-            
-            .post-media img, .post-media video {
-                max-height: 300px;
-            }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<title>Kali Linux | Полный курс этичного хакинга — 16 лекций | 144 часа</title>
+<meta name="description" content="Полный курс этичного хакинга: 16 лекций, 14 лабораторных работ, практика в терминале. Направление 10.03.01 Информационная безопасность.">
+<meta name="keywords" content="этичный хакинг, обучение хакеров, kali linux, пентест, курс бакалавриата">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Segoe UI','Fira Code',monospace;overflow:hidden;height:100vh;background:#0a0e1a;}
+.login-screen{position:fixed;top:0;left:0;width:100%;height:100%;background:linear-gradient(135deg,#0a0e1a,#1a1a2e);z-index:2000;display:flex;justify-content:center;align-items:center;}
+.login-card{background:rgba(15,25,45,0.95);border-radius:2rem;padding:2rem;width:450px;border:2px solid #2ecc71;text-align:center;}
+.login-card h2{color:#2ecc71;}
+.login-card .sub{color:#888;font-size:12px;margin-bottom:15px;}
+.login-input{width:100%;padding:12px;margin:10px 0;background:#0a0e17;border:1px solid #2ecc71;border-radius:1rem;color:white;outline:none;}
+.login-btn{background:#2ecc71;color:white;border:none;padding:12px;width:100%;border-radius:1rem;font-weight:bold;cursor:pointer;}
+.guest-btn{background:#3498db;margin-top:5px;}
+.switch-mode{color:#7f8c8d;margin-top:12px;cursor:pointer;font-size:12px;}
+.kali-desktop{width:100%;height:100vh;position:relative;overflow:hidden;display:none;background:radial-gradient(ellipse at 30% 40%,#1a2a3a,#0a0e1a);}
+.desktop-icons{position:absolute;top:15px;left:15px;display:flex;flex-direction:column;gap:12px;z-index:10;}
+.desktop-icon{display:flex;flex-direction:column;align-items:center;width:85px;cursor:pointer;padding:8px;border-radius:10px;background:rgba(0,0,0,0.4);color:white;backdrop-filter:blur(4px);transition:0.2s;}
+.desktop-icon:hover{background:rgba(46,204,113,0.3);transform:scale(1.03);}
+.desktop-icon span:first-child{font-size:32px;}
+.desktop-icon span:last-child{font-size:10px;margin-top:5px;text-align:center;}
+.taskbar{position:fixed;bottom:0;left:0;right:0;height:50px;background:rgba(15,20,30,0.95);border-top:1px solid #2ecc71;display:flex;align-items:center;padding:0 15px;gap:12px;z-index:1000;}
+.start-btn{background:#2ecc71;border:none;padding:6px 18px;border-radius:8px;color:white;cursor:pointer;font-weight:bold;}
+.user-info{background:rgba(46,204,113,0.2);padding:5px 15px;border-radius:20px;color:#2ecc71;font-size:11px;margin-left:auto;}
+.logout-btn{background:#e74c3c;border:none;padding:5px 15px;border-radius:8px;color:white;cursor:pointer;}
+.taskbar-apps{display:flex;gap:6px;flex:1;flex-wrap:wrap;}
+.taskbar-app{background:rgba(46,204,113,0.2);padding:4px 12px;border-radius:6px;color:white;font-size:10px;cursor:pointer;}
+.taskbar-time{color:white;font-size:12px;font-family:monospace;}
+.window{position:absolute;background:rgba(26,31,46,0.97);border-radius:12px;border:1px solid #2ecc71;display:none;flex-direction:column;backdrop-filter:blur(8px);}
+.window-header{background:rgba(15,20,34,0.95);padding:10px 15px;border-radius:12px 12px 0 0;display:flex;justify-content:space-between;cursor:move;border-bottom:1px solid #2ecc71;}
+.window-title{color:#2ecc71;font-weight:bold;}
+.window-controls span{color:white;cursor:pointer;margin-left:12px;font-size:16px;}
+.window-controls span:hover{color:#e74c3c;}
+.window-content{padding:20px;flex:1;overflow:auto;color:#cbd5e1;min-width:800px;min-height:550px;font-size:13px;line-height:1.5;}
+.terminal-window{background:rgba(10,14,23,0.98);font-family:'Fira Code',monospace;}
+.terminal-line{display:flex;gap:10px;margin-bottom:6px;}
+.terminal-prompt{color:#2ecc71;font-weight:bold;}
+.terminal-input{background:transparent;border:none;color:#b0f0b0;flex:1;outline:none;font-size:13px;font-family:monospace;}
+.terminal-history{max-height:450px;overflow-y:auto;margin-bottom:12px;font-size:12px;font-family:monospace;white-space:pre-wrap;}
+.lesson-card{background:rgba(15,23,42,0.95);padding:20px;border-radius:12px;margin:15px 0;border-left:4px solid #2ecc71;}
+.lesson-card h2{color:#f39c12;margin-bottom:10px;}
+.lesson-card h3{color:#3498db;margin:15px 0 10px;}
+.lesson-card p{margin:10px 0;line-height:1.5;}
+.lesson-card code{background:#0a0e17;padding:3px 8px;border-radius:5px;color:#f39c12;font-family:monospace;}
+.progress-bar{background:#2c3e50;height:10px;border-radius:10px;margin:10px 0;}
+.progress-fill{background:#2ecc71;height:100%;width:0%;transition:width 0.3s;}
+.btn{background:#2ecc71;border:none;padding:8px 16px;border-radius:8px;color:white;cursor:pointer;font-weight:bold;margin:5px;}
+.cmd-box{background:#0a0e17;padding:10px;border-radius:8px;margin:10px 0;border-left:3px solid #f39c12;}
+.cmd{color:#f39c12;font-weight:bold;font-family:monospace;}
+.badge{background:#2ecc71;color:#0a0e1a;display:inline-block;padding:3px 12px;border-radius:20px;font-size:11px;font-weight:bold;}
+.small-note{font-size:11px;color:#7f8c8d;margin-top:10px;padding:8px;background:#1a2a3a;border-radius:8px;}
+.warning-box{background:#3a1a1a;padding:12px;border-radius:10px;margin:10px 0;border-left:4px solid #e74c3c;}
+.success-box{background:#0a2f1f;padding:12px;border-radius:10px;margin:10px 0;border-left:4px solid #2ecc71;}
+.error-msg{color:#e74c3c;font-size:12px;}
+</style>
 </head>
 <body>
-    <div class="header">
-        <div class="header-content">
-            <div class="logo">📱 Социальная сеть</div>
-            <div class="auth-buttons" id="authButtons">
-                <button class="btn btn-outline" onclick="showLoginModal()">Войти</button>
-            </div>
-            <div class="user-info" id="userInfo" style="display: none;">
-                <span id="usernameDisplay"></span>
-                <button class="btn btn-outline" onclick="logout()">Выйти</button>
-            </div>
-        </div>
-    </div>
 
-    <div class="container" id="mainContainer">
-        <div id="createPostArea" style="display: none;">
-            <div class="create-post">
-                <textarea id="postText" placeholder="Что у вас нового?"></textarea>
-                <div class="media-upload">
-                    <button class="media-btn" onclick="uploadImage()">📷 Добавить фото</button>
-                    <button class="media-btn" onclick="uploadVideo()">🎥 Добавить видео</button>
-                </div>
-                <div class="media-preview" id="mediaPreview"></div>
-                <div class="post-actions">
-                    <button class="btn btn-primary" onclick="createPost()">Опубликовать</button>
-                </div>
-            </div>
-        </div>
-        <div id="postsContainer"></div>
-    </div>
+<div class="login-screen" id="loginScreen">
+<div class="login-card">
+<h2>🎓 KALI UNIVERSITY</h2>
+<div class="sub">Полный курс этичного хакинга | Направление 10.03.01 | 144 часа</div>
+<input type="text" id="loginUsername" class="login-input" placeholder="Имя студента">
+<input type="password" id="loginPassword" class="login-input" placeholder="Пароль">
+<button class="login-btn" onclick="login()">🔐 Войти</button>
+<button class="login-btn guest-btn" onclick="guestMode()">👤 Гостевой режим</button>
+<div class="switch-mode" onclick="showRegister()">📝 Регистрация</div>
+<div id="loginError" class="error-msg"></div>
+<div style="font-size:9px; margin-top:10px;">📧 Поддержка: 09m13isha@gmail.com</div>
+</div>
+<div id="registerForm" style="display:none;" class="login-card">
+<input type="text" id="regUsername" class="login-input" placeholder="Новый логин">
+<input type="password" id="regPassword" class="login-input" placeholder="Пароль">
+<button class="login-btn" onclick="register()">✅ Зарегистрироваться</button>
+<div class="switch-mode" onclick="showLogin()">← Назад</div>
+</div>
+</div>
 
-    <!-- Login Modal -->
-    <div class="modal" id="loginModal">
-        <div class="modal-content">
-            <h3>Вход в аккаунт</h3>
-            <input type="text" id="loginUsername" placeholder="Имя пользователя">
-            <div style="display: flex; gap: 10px; margin-top: 20px;">
-                <button class="btn btn-primary" onclick="login()">Войти</button>
-                <button class="btn btn-outline" onclick="closeLoginModal()">Отмена</button>
-            </div>
-            <p style="margin-top: 15px; font-size: 0.8rem; color: #999;">
-                * Админ: логин "misha"
-            </p>
-        </div>
-    </div>
+<div class="kali-desktop" id="kaliDesktop">
+<div class="desktop-icons">
+<div class="desktop-icon" onclick="openWindow('terminal')"><span>📟</span><span>Терминал</span></div>
+<div class="desktop-icon" onclick="openWindow('course')"><span>📚</span><span>Курс</span></div>
+<div class="desktop-icon" onclick="openWindow('labs')"><span>⚗️</span><span>Лабы</span></div>
+<div class="desktop-icon" onclick="openWindow('profile')"><span>👤</span><span>Профиль</span></div>
+<div class="desktop-icon" onclick="openWindow('resources')"><span>⚙️</span><span>Ресурсы</span></div>
+</div>
 
-    <script>
-        // Data storage
-        let posts = [];
-        let currentUser = null;
-        
-        // Load data from localStorage
-        function loadData() {
-            const savedPosts = localStorage.getItem('social_posts');
-            if (savedPosts) {
-                posts = JSON.parse(savedPosts);
+<div id="terminalWindow" class="window" style="width:900px; height:600px; top:20px; left:50px;">
+<div class="window-header"><span class="window-title">📟 Терминал — вводи команды из лекций</span><div class="window-controls"><span onclick="closeWindow('terminal')">✕</span></div></div>
+<div class="window-content terminal-window">
+<div id="termHistory" class="terminal-history">┌──(kali㉿student)-[~]\n└─$ <span style="color:#2ecc71">═══════════════════════════════════════════</span>\n└─$ <span style="color:#2ecc71">🎓 Полный курс этичного хакинга (16 лекций)</span>\n└─$ <span style="color:#f39c12">Введи 'help' для списка команд</span>\n└─$ <span style="color:#888">Открой КУРС (📚) → читай теорию → вводи команды</span></div>
+<div class="terminal-line"><span class="terminal-prompt">└─$</span><input type="text" id="termInput" class="terminal-input" placeholder="введите команду..."></div>
+</div>
+</div>
+
+<div id="courseWindow" class="window" style="width:1000px; height:720px; top:5px; left:20px;">
+<div class="window-header"><span class="window-title">📚 ПОЛНЫЙ КУРС — 16 ЛЕКЦИЙ (по РПД 10.03.01)</span><div class="window-controls"><span onclick="closeWindow('course')">✕</span></div></div>
+<div class="window-content" id="courseContent"></div>
+</div>
+
+<div id="labsWindow" class="window" style="width:850px; height:650px; top:30px; left:60px;">
+<div class="window-header"><span class="window-title">⚗️ ЛАБОРАТОРНЫЕ РАБОТЫ — 14 ШТ</span><div class="window-controls"><span onclick="closeWindow('labs')">✕</span></div></div>
+<div class="window-content" id="labsContent"></div>
+</div>
+
+<div id="profileWindow" class="window" style="width:600px; height:550px; top:50px; left:120px;">
+<div class="window-header"><span class="window-title">👤 ПРОФИЛЬ СТУДЕНТА</span><div class="window-controls"><span onclick="closeWindow('profile')">✕</span></div></div>
+<div class="window-content" id="profileContent"></div>
+</div>
+
+<div id="resourcesWindow" class="window" style="width:750px; height:600px; top:40px; left:80px;">
+<div class="window-header"><span class="window-title">⚙️ ПОЛЕЗНЫЕ РЕСУРСЫ</span><div class="window-controls"><span onclick="closeWindow('resources')">✕</span></div></div>
+<div class="window-content" id="resourcesContent"></div>
+</div>
+
+<div class="taskbar">
+<button class="start-btn" onclick="showStartMenu()">🎓 KALI UNI</button>
+<div class="taskbar-apps" id="taskbarApps"></div>
+<div class="user-info" id="userInfoDisplay"></div>
+<button class="logout-btn" onclick="logout()">🚪 Выход</button>
+<div class="taskbar-time" id="clock"></div>
+</div>
+</div>
+
+<script>
+// ========== БАЗА КОМАНД С РЕАЛИСТИЧНЫМ ВЫВОДОМ ==========
+var commandOutputs = {
+    "whoami": "kali",
+    "ls -la": "total 48\ndrwxr-xr-x 5 kali kali 4096 Jan 15 10:00 .\ndrwxr-xr-x 3 root root 4096 Jan 15 09:00 ..\ndrwxr-xr-x 2 kali kali 4096 Jan 15 10:00 Desktop\ndrwxr-xr-x 2 kali kali 4096 Jan 15 10:00 Documents",
+    "pwd": "/home/kali",
+    "cat /etc/passwd": "root:x:0:0:root:/root:/bin/bash\ndaemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin\nkali:x:1000:1000:Kali:/home/kali:/bin/bash",
+    "whois google.com": "Domain Name: google.com\nCreation Date: 1997-09-15\nRegistrar: MarkMonitor Inc.\nName Server: ns1.google.com",
+    "theHarvester -d example.com -b google": "[*] Searching in Google...\n[*] Total results: 42\nusers:\nadmin@example.com\nsecurity@example.com",
+    "nmap -sS localhost": "Starting Nmap 7.95\nNmap scan report for localhost (127.0.0.1)\nHost is up (0.0000040s latency).\nPORT     STATE SERVICE\n22/tcp   open  ssh\n80/tcp   open  http\n443/tcp  open  https",
+    "nmap -sV localhost": "Starting Nmap 7.95\nPORT     STATE SERVICE    VERSION\n22/tcp   open  ssh        OpenSSH 8.9p1 Ubuntu\n80/tcp   open  http       Apache httpd 2.4.52\n443/tcp  open  ssl/http   Apache httpd 2.4.52",
+    "nmap -O localhost": "Starting Nmap 7.95\nDevice type: general purpose\nRunning: Linux 5.X\nOS details: Linux 5.0 - 6.5",
+    "nmap -sC localhost": "Starting Nmap 7.95\nNSE: Loaded 155 scripts for scanning.\n22/tcp open  ssh\n| ssh-hostkey: \n|   3072 SHA256:abc123... (RSA)\n80/tcp open  http\n|_http-title: Apache2 Ubuntu Default Page",
+    "nmap -A localhost": "Starting Nmap 7.95\nPORT     STATE SERVICE    VERSION\n22/tcp   open  ssh        OpenSSH 8.9p1\n80/tcp   open  http       Apache httpd 2.4.52\nDevice type: general purpose\nRunning: Linux 5.X\nOS details: Linux 5.0 - 6.5",
+    "nmap -p- localhost": "Starting Nmap 7.95\nPORT     STATE SERVICE\n22/tcp   open  ssh\n80/tcp   open  http\n443/tcp  open  https\n8080/tcp open  http-proxy",
+    "nmap -T4 localhost": "Starting Nmap 7.95\nIncreasing send delay for 127.0.0.1 from 0 to 5 due to 11 out of 11 dropped probes since last increase.\n22/tcp open  ssh\n80/tcp open  http\n443/tcp open  https",
+    "nmap --script vuln localhost": "Starting Nmap 7.95\nNSE: running http-vuln-* against localhost\n22/tcp open  ssh\n80/tcp open  http\n|_http-vuln-cve: No known vulnerabilities found",
+    "tcpdump -i lo -c 5": "tcpdump: verbose output suppressed\nlistening on lo, link-type EN10MB\n12:34:56.789012 IP localhost.54321 > localhost.80: Flags [S], seq 123456789\n12:34:56.789123 IP localhost.80 > localhost.54321: Flags [S.], seq 987654321\n12:34:56.789234 IP localhost.54321 > localhost.80: Flags [.], ack 1\n12:34:56.789345 IP localhost.54321 > localhost.80: Flags [P.], seq 1:89\n12:34:56.789456 IP localhost.80 > localhost.54321: Flags [.], ack 89\n5 packets captured",
+    "tcpdump -i lo port 80": "tcpdump: listening on lo\n12:34:56.789012 IP localhost.54321 > localhost.80: Flags [S], seq 111111\n12:34:56.789123 IP localhost.80 > localhost.54321: Flags [S.], seq 222222",
+    "tcpdump -i lo src 127.0.0.1": "tcpdump: listening on lo\n12:34:56.789012 IP localhost.54321 > localhost.80: Flags [S], seq 123",
+    "hashcat --help": "hashcat (v6.2.6) starting in help mode\n\nUsage: hashcat [options]... hashfile [wordlist|directory]\n\n## [ Hash modes ]\n## MD5             = 0\n## SHA1            = 100\n## SHA256          = 1400\n## NTLM            = 1000\n## WPA/WPA2        = 2500",
+    "hashcat -m 0 -a 0 hash.txt rockyou.txt": "hashcat (v6.2.6) starting\n\n5f4dcc3b5aa765d61d8327deb882cf99:password\n\nSession..........: hashcat\nStatus...........: Cracked\n\nCracked MD5: password",
+    "airmon-ng": "Interface\tPHY\tDriver\nwlan0\t\tphy0\tiwlwifi\n\n[*] Driver may be susceptible to rfkill",
+    "airmon-ng start wlan0": "Found 1 processes that could cause trouble.\nPHY\tInterface\tDriver\nphy0\twlan0\t\tiwlwifi\n(mac80211 monitor mode vif enabled for wlan0mon)",
+    "airodump-ng wlan0mon": "CH  6 ][ Elapsed: 0 mins\nBSSID              PWR  Beacons    #Data   CH   MB   ENC  Cipher AUTH ESSID\nAA:BB:CC:DD:EE:FF  -34        5        0    6   54e  WPA2 CCMP   PSK  CoffeeShop_WiFi",
+    "aircrack-ng -w rockyou.txt handshake.cap": "Opening handshake.cap\nRead 123 packets.\n\n                               KEY FOUND! [ coffee123 ]\n\nThe password is 'coffee123'",
+    "sqlmap --help": "sqlmap/1.8.7#dev\nUsage: python3 sqlmap [options]\n\nExample: sqlmap -u 'http://test.com/index.php?id=1' --dbs",
+    "sqlmap -u 'http://test.com/index.php?id=1' --dbs": "available databases [4]:\n[*] information_schema\n[*] mysql\n[*] performance_schema\n[*] test_db",
+    "msfconsole --help": "Metasploit Framework Console\nUsage: msfconsole [options]\n\nCommon commands: help, search, use, set, exploit",
+    "search eternalblue": "Matching Modules\n================\n   #  Name                                           Disclosure Date  Rank\n   0  exploit/windows/smb/ms17_010_eternalblue       2017-03-14       average",
+    "ping -c 4 google.com": "PING google.com (142.250.185.46) 56(84) bytes of data.\n64 bytes from 142.250.185.46: icmp_seq=1 ttl=115 time=12.3 ms\n64 bytes from 142.250.185.46: icmp_seq=2 ttl=115 time=12.1 ms\n64 bytes from 142.250.185.46: icmp_seq=3 ttl=115 time=12.5 ms\n64 bytes from 142.250.185.46: icmp_seq=4 ttl=115 time=12.2 ms\n\n--- google.com ping statistics ---\n4 packets transmitted, 4 received, 0% packet loss",
+    "traceroute google.com": "traceroute to google.com (142.250.185.46), 30 hops max\n 1  _gateway (192.168.1.1)  1.234 ms\n 2  10.0.0.1 (10.0.0.1)  5.678 ms\n 3  142.250.185.46 (142.250.185.46)  12.345 ms",
+    "iptables -L": "Chain INPUT (policy ACCEPT)\ntarget     prot opt source               destination\n\nChain FORWARD (policy ACCEPT)\nChain OUTPUT (policy ACCEPT)",
+    "gdb --help": "GNU gdb (Debian 13.1-2) 13.1\nUsage: gdb [options] [executable-file]",
+    "objdump -d /bin/ls | head -10": "/bin/ls:     file format elf64-x86-64\n\nDisassembly of section .text:\n0000000000003000 <.text>:\n    3000:       f3 0f 1e fa             endbr64\n    3004:       41 57                   push   %r15",
+    "openssl version": "OpenSSL 3.0.11 19 Sep 2023",
+    "date": "Wed Jan 15 12:34:56 UTC 2025",
+    "help": "HELP",
+    "clear": "CLEAR"
+};
+
+// ========== ПОЛНЫЙ КУРС — 16 ЛЕКЦИЙ ==========
+var lectures = [
+    { id:1, title:"Лекция 1: Введение в этичный хакинг", theory:"<div class='badge'>📖 Лекция 1 | Модуль 1 | 2 ак.ч</div><h2>🎓 Что такое этичный хакинг?</h2><p>Этичный хакинг (White Hat) — законное тестирование систем на уязвимости с разрешения владельца.</p><h3>⚖️ Правовые аспекты (ст.272-274 УК РФ)</h3><p><strong>Ст.272</strong> — Неправомерный доступ (до 2 лет)<br><strong>Ст.273</strong> — Создание вредоносных программ (до 7 лет)</p><h3>👥 Типы хакеров</h3><p>White Hat, Black Hat, Grey Hat, Red Team, Blue Team</p>", cmds:["whoami","ls -la","pwd"], xp:30, done:false, cmdDone:[] },
+    { id:2, title:"Лекция 2: OSINT — разведка по открытым источникам", theory:"<div class='badge'>📖 Лекция 2 | Модуль 1 | 2 ак.ч</div><h2>🕵️ Что такое OSINT?</h2><p>OSINT (Open Source Intelligence) — сбор информации из открытых источников.</p><h3>🔧 Инструменты OSINT</h3><p>theHarvester, Maltego, Shodan, Censys</p>", cmds:["whois google.com"], xp:30, done:false, cmdDone:[] },
+    { id:3, title:"Лекция 3: Nmap — основы сканирования", theory:"<div class='badge'>📖 Лекция 3 | Модуль 2 | 2 ак.ч</div><h2>🔍 Nmap — сканирование портов</h2><p>Типы сканирования: -sS (SYN), -sT (TCP connect), -sU (UDP)</p>", cmds:["nmap -sS localhost","nmap -sV localhost"], xp:40, done:false, cmdDone:[] },
+    { id:4, title:"Лекция 4: Nmap — продвинутые техники", theory:"<div class='badge'>📖 Лекция 4 | Модуль 2 | 2 ак.ч</div><h2>⚡ Продвинутый Nmap</h2><p>NSE скрипты, тайминги -T0 до -T5, определение ОС (-O)</p>", cmds:["nmap -O localhost","nmap -sC localhost","nmap -A localhost","nmap -p- localhost","nmap -T4 localhost"], xp:50, done:false, cmdDone:[] },
+    { id:5, title:"Лекция 5: Анализ трафика — tcpdump", theory:"<div class='badge'>📖 Лекция 5 | Модуль 2 | 2 ак.ч</div><h2>📡 tcpdump — захват пакетов</h2><p>Флаги: -i, -c, -w, -r. Фильтры BPF: host, port, src, dst</p>", cmds:["tcpdump -i lo -c 5","tcpdump -i lo port 80"], xp:40, done:false, cmdDone:[] },
+    { id:6, title:"Лекция 6: Wireshark и анализ протоколов", theory:"<div class='badge'>📖 Лекция 6 | Модуль 2 | 2 ак.ч</div><h2>📊 Wireshark — графический сниффер</h2><p>Фильтры: http.request, tcp.port==443, dns.qry.name</p>", cmds:["tcpdump -i lo src 127.0.0.1"], xp:35, done:false, cmdDone:[] },
+    { id:7, title:"Лекция 7: Hashcat — взлом хешей MD5/SHA1", theory:"<div class='badge'>📖 Лекция 7 | Модуль 3 | 2 ак.ч</div><h2>🔐 Hashcat — словарные атаки</h2><p>Типы хешей: MD5 (0), SHA1 (100), NTLM (1000)</p>", cmds:["hashcat --help"], xp:35, done:false, cmdDone:[] },
+    { id:8, title:"Лекция 8: Hashcat — брутфорс и маски", theory:"<div class='badge'>📖 Лекция 8 | Модуль 3 | 2 ак.ч</div><h2>🎭 Маски в hashcat</h2><p>?l=a-z, ?u=A-Z, ?d=0-9, ?s=спецсимволы</p>", cmds:["hashcat -m 0 -a 0 hash.txt rockyou.txt"], xp:45, done:false, cmdDone:[] },
+    { id:9, title:"Лекция 9: Aircrack-ng — Wi-Fi безопасность", theory:"<div class='warning-box'>⚠️ ТОЛЬКО ДЛЯ СВОИХ СЕТЕЙ</div><h2>📡 Aircrack-ng suite</h2><p>airmon-ng, airodump-ng, aireplay-ng, aircrack-ng</p>", cmds:["airmon-ng"], xp:40, done:false, cmdDone:[] },
+    { id:10, title:"Лекция 10: SQL-инъекции", theory:"<div class='badge'>📖 Лекция 10 | Модуль 3 | 2 ак.ч</div><h2>💉 SQL-инъекции</h2><p>Типы: Union, Boolean, Time-based. Инструмент: sqlmap</p>", cmds:["sqlmap --help"], xp:40, done:false, cmdDone:[] },
+    { id:11, title:"Лекция 11: Metasploit Framework", theory:"<div class='badge'>📖 Лекция 11 | Модуль 3 | 2 ак.ч</div><h2>🤖 Metasploit</h2><p>Компоненты: exploit, payload, meterpreter</p>", cmds:["msfconsole --help"], xp:35, done:false, cmdDone:[] },
+    { id:12, title:"Лекция 12: Сетевые утилиты (ping, traceroute)", theory:"<div class='badge'>📖 Лекция 12 | Модуль 2 | 2 ак.ч</div><h2>🌐 Диагностика сети</h2><p>ping, traceroute, whois, iptables</p>", cmds:["ping -c 4 google.com","traceroute google.com"], xp:30, done:false, cmdDone:[] },
+    { id:13, title:"Лекция 13: Файрволы (iptables)", theory:"<div class='badge'>📖 Лекция 13 | Модуль 4 | 2 ак.ч</div><h2>🛡️ Защита — iptables</h2><p>Цепочки: INPUT, OUTPUT, FORWARD. Действия: ACCEPT, DROP, REJECT</p>", cmds:["iptables -L"], xp:35, done:false, cmdDone:[] },
+    { id:14, title:"Лекция 14: Реверс-инжиниринг (GDB, objdump)", theory:"<div class='badge'>📖 Лекция 14 | Модуль 4 | 2 ак.ч</div><h2>🔧 Реверс-инжиниринг</h2><p>Инструменты: gdb, objdump, Ghidra, IDA</p>", cmds:["gdb --help","objdump -d /bin/ls | head -10"], xp:40, done:false, cmdDone:[] },
+    { id:15, title:"Лекция 15: Шифрование (OpenSSL)", theory:"<div class='badge'>📖 Лекция 15 | Модуль 4 | 2 ак.ч</div><h2>🔐 Шифрование и OpenSSL</h2><p>Симметричное и асимметричное шифрование</p>", cmds:["openssl version"], xp:30, done:false, cmdDone:[] },
+    { id:16, title:"Лекция 16: Итоговая аттестация", theory:"<div class='badge'>📖 Лекция 16 | Защита проекта</div><h2>🏆 Итоговая аттестация</h2><p>Защита курсового проекта. Пентест корпоративной сети.</p>", cmds:["date"], xp:50, done:false, cmdDone:[] }
+];
+
+// ========== 14 ЛАБОРАТОРНЫХ РАБОТ ==========
+var labs = [
+    { id:1, name:"Лабораторная 1: Знакомство с Kali Linux", cmd:"whoami", desc:"Введи whoami для определения текущего пользователя", done:false },
+    { id:2, name:"Лабораторная 2: OSINT сбор информации", cmd:"whois google.com", desc:"Собери информацию о домене google.com", done:false },
+    { id:3, name:"Лабораторная 3: Базовое сканирование Nmap", cmd:"nmap -sV localhost", desc:"Выполни сканирование портов с определением версий", done:false },
+    { id:4, name:"Лабораторная 4: Продвинутое сканирование", cmd:"nmap -A localhost", desc:"Агрессивное сканирование (ОС, версии, трейсировка)", done:false },
+    { id:5, name:"Лабораторная 5: Захват трафика (tcpdump)", cmd:"tcpdump -i lo -c 5", desc:"Захвати 5 пакетов на loopback интерфейсе", done:false },
+    { id:6, name:"Лабораторная 6: Фильтрация трафика", cmd:"tcpdump -i lo port 80", desc:"Захвати только HTTP пакеты (порт 80)", done:false },
+    { id:7, name:"Лабораторная 7: Hashcat — справка", cmd:"hashcat --help", desc:"Изучи справку по hashcat", done:false },
+    { id:8, name:"Лабораторная 8: Wi-Fi интерфейсы", cmd:"airmon-ng", desc:"Посмотри доступные Wi-Fi интерфейсы", done:false },
+    { id:9, name:"Лабораторная 9: SQLmap справка", cmd:"sqlmap --help", desc:"Изучи справку по SQLmap", done:false },
+    { id:10, name:"Лабораторная 10: Metasploit справка", cmd:"msfconsole --help", desc:"Изучи справку по Metasploit", done:false },
+    { id:11, name:"Лабораторная 11: Сетевая диагностика", cmd:"ping -c 4 google.com", desc:"Отправь 4 ICMP запроса к google.com", done:false },
+    { id:12, name:"Лабораторная 12: Маршрутизация", cmd:"traceroute google.com", desc:"Отследи маршрут до google.com", done:false },
+    { id:13, name:"Лабораторная 13: Файрвол (iptables)", cmd:"iptables -L", desc:"Посмотри правила файрвола", done:false },
+    { id:14, name:"Лабораторная 14: Реверс-инжиниринг", cmd:"gdb --help", desc:"Изучи справку по GDB", done:false }
+];
+
+// ========== ПЕРЕМЕННЫЕ ==========
+var currentUser = null;
+var isGuest = false;
+var userXP = 0;
+var userLevel = 1;
+var activeWindows = [];
+
+function getUsers() { var s = localStorage.getItem("fullCourse16"); return s ? JSON.parse(s) : {}; }
+function saveUsers(u) { localStorage.setItem("fullCourse16", JSON.stringify(u)); }
+
+function saveProgress() {
+    if (!currentUser || isGuest) return;
+    var users = getUsers();
+    if (users[currentUser]) {
+        var lecData = [];
+        for (var i = 0; i < lectures.length; i++) {
+            lecData.push({ done: lectures[i].done, cmdDone: lectures[i].cmdDone });
+        }
+        var labData = [];
+        for (var i = 0; i < labs.length; i++) {
+            labData.push({ done: labs[i].done });
+        }
+        users[currentUser].progress = { xp: userXP, level: userLevel, lectures: lecData, labs: labData };
+        saveUsers(users);
+    }
+}
+
+function loadProgress() {
+    if (!currentUser || isGuest) { resetProgress(); return; }
+    var users = getUsers();
+    if (users[currentUser] && users[currentUser].progress) {
+        var p = users[currentUser].progress;
+        userXP = p.xp || 0;
+        userLevel = p.level || 1;
+        if (p.lectures) {
+            for (var i = 0; i < p.lectures.length && i < lectures.length; i++) {
+                lectures[i].done = p.lectures[i].done || false;
+                lectures[i].cmdDone = p.lectures[i].cmdDone || [];
+            }
+        }
+        if (p.labs) {
+            for (var i = 0; i < p.labs.length && i < labs.length; i++) {
+                labs[i].done = p.labs[i].done || false;
+            }
+        }
+    } else { resetProgress(); }
+    updateUserInfo();
+}
+
+function resetProgress() {
+    userXP = 0; userLevel = 1;
+    for (var i = 0; i < lectures.length; i++) {
+        lectures[i].done = false;
+        lectures[i].cmdDone = [];
+    }
+    for (var i = 0; i < labs.length; i++) { labs[i].done = false; }
+}
+
+function addXP(amount) {
+    if (isGuest) return;
+    userXP += amount;
+    if (userXP >= userLevel * 200) { userLevel++; alert("🎉 Уровень " + userLevel + "!"); }
+    saveProgress();
+    updateUI();
+    updateUserInfo();
+}
+
+function updateUserInfo() {
+    var elem = document.getElementById("userInfoDisplay");
+    if (!elem) return;
+    var prog = 0;
+    for (var i = 0; i < lectures.length; i++) { if (lectures[i].done) prog++; }
+    var labProg = 0;
+    for (var i = 0; i < labs.length; i++) { if (labs[i].done) labProg++; }
+    if (isGuest) {
+        elem.innerHTML = "👤 Гость | XP: " + userXP + " | 📚 " + prog + "/" + lectures.length;
+    } else {
+        elem.innerHTML = currentUser + " | ⚡" + userXP + " | 📚" + prog + "/" + lectures.length + " | ⚗️" + labProg + "/" + labs.length;
+    }
+}
+
+function updateUI() { renderCourse(); renderLabs(); renderProfile(); renderResources(); }
+
+function register() {
+    var users = getUsers();
+    var name = document.getElementById("regUsername").value.trim();
+    var pass = document.getElementById("regPassword").value;
+    if (!name || !pass) { showError("Заполните поля!"); return; }
+    if (users[name]) { showError("Пользователь уже существует!"); return; }
+    users[name] = { password: pass };
+    saveUsers(users);
+    showLogin();
+    document.getElementById("loginError").innerHTML = "✅ Аккаунт создан!";
+}
+
+function login() {
+    var users = getUsers();
+    var name = document.getElementById("loginUsername").value.trim();
+    var pass = document.getElementById("loginPassword").value;
+    if (!users[name] || users[name].password !== pass) { showError("Неверное имя или пароль!"); return; }
+    currentUser = name; isGuest = false; loadProgress(); startDesktop();
+}
+
+function guestMode() { 
+    currentUser = "guest_" + Date.now(); 
+    isGuest = true; 
+    loadProgress(); 
+    startDesktop(); 
+}
+
+function logout() {
+    if (!isGuest && currentUser) saveProgress();
+    currentUser = null;
+    document.getElementById("kaliDesktop").style.display = "none";
+    document.getElementById("loginScreen").style.display = "flex";
+}
+
+function showError(m) { var e = document.getElementById("loginError"); if(e) e.innerHTML = m; setTimeout(function(){if(e) e.innerHTML="";},2000); }
+function showRegister() { document.getElementById("loginForm").style.display="none"; document.getElementById("registerForm").style.display="block"; }
+function showLogin() { document.getElementById("loginForm").style.display="block"; document.getElementById("registerForm").style.display="none"; }
+
+function startDesktop() {
+    document.getElementById("loginScreen").style.display = "none";
+    document.getElementById("kaliDesktop").style.display = "block";
+    updateUI();
+    initTerminal();
+    makeDraggable();
+    setInterval(function() { var cl = document.getElementById("clock"); if(cl) cl.innerHTML = new Date().toLocaleTimeString(); }, 1000);
+}
+
+function initTerminal() {
+    var inp = document.getElementById("termInput");
+    if (!inp) return;
+    inp.addEventListener("keypress", function(e) {
+        if (e.key === "Enter") {
+            var cmd = inp.value.trim();
+            var hist = document.getElementById("termHistory");
+            if (!hist) return;
+            hist.innerHTML += '└─$ ' + cmd + '\n';
+            
+            var output = commandOutputs[cmd];
+            if (output === "CLEAR") {
+                hist.innerHTML = '┌──(kali㉿student)-[~]\n└─$ Терминал очищен\n';
+                hist = document.getElementById("termHistory");
+            } else if (output === "HELP") {
+                hist.innerHTML += '📋 ДОСТУПНЫЕ КОМАНДЫ:\n• whoami, ls -la, pwd — основы Linux\n• whois, theHarvester — OSINT\n• nmap -sS, -sV, -O, -sC, -A, -p- — сканирование\n• tcpdump — анализ трафика\n• hashcat — взлом хешей\n• airmon-ng — Wi-Fi\n• sqlmap, msfconsole — эксплуатация\n• ping, traceroute — сеть\n• iptables, gdb, objdump, openssl — защита и реверс\n';
+            } else if (output) {
+                hist.innerHTML += output + '\n';
             } else {
-                // Demo posts
-                posts = [
-                    {
-                        id: Date.now(),
-                        author: 'misha',
-                        text: 'Добро пожаловать в нашу социальную сеть! Здесь вы можете публиковать посты, добавлять фото и видео, ставить лайки и комментировать. Админ: misha',
-                        media: null,
-                        mediaType: null,
-                        likes: [],
-                        comments: [],
-                        timestamp: Date.now() - 86400000
+                hist.innerHTML += '❌ Команда не найдена. Введи help\n';
+            }
+            
+            // Проверка лекций
+            for (var li = 0; li < lectures.length; li++) {
+                for (var ci = 0; ci < lectures[li].cmds.length; ci++) {
+                    if (cmd === lectures[li].cmds[ci] && lectures[li].cmdDone.indexOf(ci) === -1) {
+                        lectures[li].cmdDone.push(ci);
+                        hist.innerHTML += '✅ Команда из лекции ' + lectures[li].id + ' выполнена!\n';
+                        if (lectures[li].cmdDone.length === lectures[li].cmds.length && !lectures[li].done) {
+                            lectures[li].done = true;
+                            addXP(lectures[li].xp);
+                            hist.innerHTML += '🎉 Лекция ' + lectures[li].id + ' пройдена! +' + lectures[li].xp + ' XP\n';
+                            renderCourse();
+                        }
+                        break;
                     }
-                ];
-                saveData();
-            }
-            renderPosts();
-        }
-        
-        function saveData() {
-            localStorage.setItem('social_posts', JSON.stringify(posts));
-        }
-        
-        // Current media for new post
-        let currentMedia = null;
-        let currentMediaType = null;
-        
-        function uploadImage() {
-            const input = document.createElement('input');
-            input.type = 'file';
-            input.accept = 'image/*';
-            input.onchange = (e) => {
-                const file = e.target.files[0];
-                if (file) {
-                    const reader = new FileReader();
-                    reader.onload = (event) => {
-                        currentMedia = event.target.result;
-                        currentMediaType = 'image';
-                        document.getElementById('mediaPreview').innerHTML = `
-                            <div style="position: relative;">
-                                <img src="${currentMedia}" alt="Preview">
-                                <button onclick="removeMedia()" style="position: absolute; top: 5px; right: 5px; background: red; color: white; border: none; border-radius: 50%; width: 25px; height: 25px; cursor: pointer;">×</button>
-                            </div>
-                        `;
-                    };
-                    reader.readAsDataURL(file);
                 }
-            };
-            input.click();
-        }
-        
-        function uploadVideo() {
-            const input = document.createElement('input');
-            input.type = 'file';
-            input.accept = 'video/*';
-            input.onchange = (e) => {
-                const file = e.target.files[0];
-                if (file) {
-                    const reader = new FileReader();
-                    reader.onload = (event) => {
-                        currentMedia = event.target.result;
-                        currentMediaType = 'video';
-                        document.getElementById('mediaPreview').innerHTML = `
-                            <div style="position: relative;">
-                                <video src="${currentMedia}" controls style="max-width: 200px;"></video>
-                                <button onclick="removeMedia()" style="position: absolute; top: 5px; right: 5px; background: red; color: white; border: none; border-radius: 50%; width: 25px; height: 25px; cursor: pointer;">×</button>
-                            </div>
-                        `;
-                    };
-                    reader.readAsDataURL(file);
+            }
+            // Проверка лабораторных
+            for (var li = 0; li < labs.length; li++) {
+                if (cmd === labs[li].cmd && !labs[li].done) {
+                    labs[li].done = true;
+                    addXP(30);
+                    hist.innerHTML += '🎉 Лабораторная ' + labs[li].id + ' выполнена! +30 XP\n';
+                    renderLabs();
+                    break;
                 }
-            };
-            input.click();
-        }
-        
-        function removeMedia() {
-            currentMedia = null;
-            currentMediaType = null;
-            document.getElementById('mediaPreview').innerHTML = '';
-        }
-        
-        function createPost() {
-            const text = document.getElementById('postText').value.trim();
-            if (!text && !currentMedia) {
-                alert('Напишите текст или добавьте медиа');
-                return;
             }
-            
-            const newPost = {
-                id: Date.now(),
-                author: currentUser,
-                text: text,
-                media: currentMedia,
-                mediaType: currentMediaType,
-                likes: [],
-                comments: [],
-                timestamp: Date.now()
-            };
-            
-            posts.unshift(newPost);
-            saveData();
-            
-            // Reset form
-            document.getElementById('postText').value = '';
-            removeMedia();
-            
-            renderPosts();
+            inp.value = "";
+            hist.scrollTop = hist.scrollHeight;
+            saveProgress();
         }
-        
-        function likePost(postId) {
-            const post = posts.find(p => p.id === postId);
-            if (!post) return;
-            
-            const likeIndex = post.likes.indexOf(currentUser);
-            if (likeIndex === -1) {
-                post.likes.push(currentUser);
-            } else {
-                post.likes.splice(likeIndex, 1);
+    });
+}
+
+function renderCourse() {
+    var container = document.getElementById("courseContent");
+    if (!container) return;
+    var doneCount = 0;
+    for (var i = 0; i < lectures.length; i++) { if (lectures[i].done) doneCount++; }
+    var percent = (doneCount / lectures.length) * 100;
+    var html = '<h1>📚 ПОЛНЫЙ КУРС — 16 ЛЕКЦИЙ</h1><div class="progress-bar"><div class="progress-fill" style="width:' + percent + '%"></div></div><p>Прогресс: ' + doneCount + '/' + lectures.length + ' лекций (' + Math.round(percent) + '%) | XP: ' + userXP + ' | Уровень: ' + userLevel + '</p>';
+    for (var i = 0; i < lectures.length; i++) {
+        var l = lectures[i];
+        var cmdProgress = (l.cmdDone.length / l.cmds.length) * 100;
+        if (l.done) {
+            html += '<div class="lesson-card" style="opacity:0.8;"><div class="badge">✅ Лекция ' + l.id + ' — ПРОЙДЕНА</div><h2>' + l.title + '</h2>' + l.theory + '<p style="color:#2ecc71;">🎉 +' + l.xp + ' XP</p></div>';
+        } else {
+            html += '<div class="lesson-card"><div class="badge">📖 Лекция ' + l.id + ' (не пройдена)</div><h2>' + l.title + '</h2>' + l.theory + '<h3>💻 Практические команды:</h3><div class="cmd-box">';
+            for (var ci = 0; ci < l.cmds.length; ci++) {
+                var done = (l.cmdDone.indexOf(ci) !== -1);
+                html += '<div><span class="cmd">' + (done ? "✅" : "➡️") + " " + l.cmds[ci] + '</span></div>';
             }
-            
-            saveData();
-            renderPosts();
+            html += '</div><div class="progress-bar"><div class="progress-fill" style="width:' + cmdProgress + '%;background:#f39c12"></div></div>';
+            html += '<div class="small-note">💡 Введи эти команды в Терминал, чтобы пройти лекцию и получить XP!</div></div>';
         }
-        
-        function addComment(postId) {
-            const input = document.getElementById(`comment-input-${postId}`);
-            const commentText = input.value.trim();
-            if (!commentText) return;
-            
-            const post = posts.find(p => p.id === postId);
-            if (post) {
-                post.comments.push({
-                    author: currentUser,
-                    text: commentText,
-                    timestamp: Date.now()
-                });
-                saveData();
-                input.value = '';
-                renderPosts();
-            }
+    }
+    container.innerHTML = html;
+}
+
+function renderLabs() {
+    var container = document.getElementById("labsContent");
+    if (!container) return;
+    var doneCount = 0;
+    for (var i = 0; i < labs.length; i++) { if (labs[i].done) doneCount++; }
+    var percent = (doneCount / labs.length) * 100;
+    var html = '<h1>⚗️ ЛАБОРАТОРНЫЕ РАБОТЫ — 14 ШТ</h1><div class="progress-bar"><div class="progress-fill" style="width:' + percent + '%"></div></div><p>Выполнено: ' + doneCount + '/' + labs.length + ' лаб (' + Math.round(percent) + '%)</p>';
+    for (var i = 0; i < labs.length; i++) {
+        var l = labs[i];
+        if (l.done) {
+            html += '<div class="lesson-card" style="opacity:0.8;"><div class="badge">✅ Лабораторная ' + l.id + ' — ВЫПОЛНЕНА</div><h2>' + l.name + '</h2><p>' + l.desc + '</p><p style="color:#2ecc71;">🎉 +30 XP</p></div>';
+        } else {
+            html += '<div class="lesson-card"><div class="badge">⚗️ Лабораторная ' + l.id + '</div><h2>' + l.name + '</h2><p>' + l.desc + '</p><div class="cmd-box"><span class="cmd">➡️ ' + l.cmd + '</span></div>';
+            html += '<div class="small-note">💡 Введи эту команду в Терминал для выполнения лабораторной работы.</div></div>';
         }
-        
-        function deletePost(postId) {
-            if (currentUser !== 'misha') {
-                alert('Только администратор может удалять посты!');
-                return;
-            }
-            
-            if (confirm('Удалить этот пост?')) {
-                posts = posts.filter(p => p.id !== postId);
-                saveData();
-                renderPosts();
-            }
-        }
-        
-        function deleteComment(postId, commentIndex) {
-            if (currentUser !== 'misha') {
-                alert('Только администратор может удалять комментарии!');
-                return;
-            }
-            
-            const post = posts.find(p => p.id === postId);
-            if (post) {
-                post.comments.splice(commentIndex, 1);
-                saveData();
-                renderPosts();
+    }
+    container.innerHTML = html;
+}
+
+function renderProfile() {
+    var container = document.getElementById("profileContent");
+    if (!container) return;
+    var progLec = 0;
+    for (var i = 0; i < lectures.length; i++) { if (lectures[i].done) progLec++; }
+    var progLab = 0;
+    for (var i = 0; i < labs.length; i++) { if (labs[i].done) progLab++; }
+    var total = Math.round(((progLec + progLab) / (lectures.length + labs.length)) * 100);
+    var rank = "🌱 Новичок";
+    if (total >= 80) rank = "🏆 Профессионал (White Hat)";
+    else if (total >= 60) rank = "🔥 Продвинутый";
+    else if (total >= 40) rank = "📚 Основы";
+    else if (total >= 20) rank = "🌱 Стажёр";
+    container.innerHTML = '<h1>👤 ПРОФИЛЬ СТУДЕНТА</h1><div class="lesson-card"><strong>📛 Имя:</strong> ' + (currentUser || "Гость") + '<br><strong>⚡ XP:</strong> ' + userXP + '<br><strong>📈 Уровень:</strong> ' + userLevel + '<br><strong>📚 Лекций пройдено:</strong> ' + progLec + "/" + lectures.length + '<br><strong>⚗️ Лабораторных:</strong> ' + progLab + "/" + labs.length + '<br><strong>📊 Прогресс курса:</strong> ' + total + '%<div class="progress-bar"><div class="progress-fill" style="width:' + total + '%"></div></div><br><strong>🎖️ Статус:</strong> ' + rank + '<br><br><div class="small-note">🎓 Цель: пройти все 16 лекций и 14 лабораторных работ!<br>📧 По вопросам: 09m13isha@gmail.com</div></div>';
+}
+
+function renderResources() {
+    var container = document.getElementById("resourcesContent");
+    if (!container) return;
+    container.innerHTML = '<h1>⚙️ ПОЛЕЗНЫЕ РЕСУРСЫ</h1><div class="warning-box"><h3>⚠️ Ограничения тренажёра</h3><p>Тренажёр показывает эмуляцию вывода команд. Для реальной практики нужен настоящий Kali Linux на VirtualBox.</p></div><div class="success-box"><h3>🔥 Установи реальный Kali Linux</h3><p><strong>VirtualBox:</strong> https://www.virtualbox.org/<br><strong>Kali Linux:</strong> https://www.kali.org/get-kali/<br><strong>Metasploitable 2 (цель):</strong> https://sourceforge.net/projects/metasploitable/</p><h3>📚 Бесплатные платформы</h3><p><strong>TryHackMe:</strong> https://tryhackme.com<br><strong>Hack The Box:</strong> https://www.hackthebox.com<br><strong>PortSwigger Academy:</strong> https://portswigger.net/web-security<br><strong>OverTheWire:</strong> https://overthewire.org</p><h3>📡 Wi-Fi адаптеры</h3><p>Alfa AWUS036ACH, Panda PAU06, TP-Link TL-WN722N</p></div>';
+}
+
+function openWindow(w) {
+    var win = document.getElementById(w + "Window");
+    if (win) {
+        win.style.display = "flex";
+        win.style.zIndex = Date.now();
+        if (activeWindows.indexOf(w) === -1) {
+            activeWindows.push(w);
+            var bar = document.getElementById("taskbarApps");
+            if (bar) {
+                var html = "";
+                for (var i = 0; i < activeWindows.length; i++) {
+                    html += '<div class="taskbar-app" onclick="openWindow(\'' + activeWindows[i] + '\')">' + activeWindows[i] + '</div>';
+                }
+                bar.innerHTML = html;
             }
         }
-        
-        function formatTime(timestamp) {
-            const diff = Date.now() - timestamp;
-            const minutes = Math.floor(diff / 60000);
-            const hours = Math.floor(diff / 3600000);
-            const days = Math.floor(diff / 86400000);
-            
-            if (minutes < 1) return 'только что';
-            if (minutes < 60) return `${minutes} мин назад`;
-            if (hours < 24) return `${hours} ч назад`;
-            return `${days} дн назад`;
+    }
+    if (w === "course") renderCourse();
+    if (w === "labs") renderLabs();
+    if (w === "profile") renderProfile();
+    if (w === "resources") renderResources();
+}
+
+function closeWindow(w) {
+    var win = document.getElementById(w + "Window");
+    if (win) win.style.display = "none";
+    var newActive = [];
+    for (var i = 0; i < activeWindows.length; i++) {
+        if (activeWindows[i] !== w) newActive.push(activeWindows[i]);
+    }
+    activeWindows = newActive;
+    var bar = document.getElementById("taskbarApps");
+    if (bar) {
+        var html = "";
+        for (var i = 0; i < activeWindows.length; i++) {
+            html += '<div class="taskbar-app" onclick="openWindow(\'' + activeWindows[i] + '\')">' + activeWindows[i] + '</div>';
         }
-        
-        function renderPosts() {
-            const container = document.getElementById('postsContainer');
-            if (!container) return;
-            
-            if (posts.length === 0) {
-                container.innerHTML = '<div style="text-align: center; padding: 50px; background: white; border-radius: 15px;">Нет постов. Будьте первым!</div>';
-                return;
+        bar.innerHTML = html;
+    }
+}
+
+function makeDraggable() {
+    var windows = document.querySelectorAll(".window");
+    for (var i = 0; i < windows.length; i++) {
+        var win = windows[i];
+        var header = win.querySelector(".window-header");
+        if (!header) continue;
+        var isDrag = false, offX = 0, offY = 0;
+        header.addEventListener("mousedown", function(e) {
+            isDrag = true;
+            offX = e.clientX - win.offsetLeft;
+            offY = e.clientY - win.offsetTop;
+            win.style.zIndex = Date.now();
+        });
+        document.addEventListener("mousemove", function(e) {
+            if (isDrag) {
+                win.style.left = (e.clientX - offX) + "px";
+                win.style.top = (e.clientY - offY) + "px";
             }
-            
-            container.innerHTML = posts.map(post => `
-                <div class="post">
-                    <div class="post-header">
-                        <div class="post-author">
-                            <div class="avatar">${post.author[0].toUpperCase()}</div>
-                            <div class="author-info">
-                                <h4>
-                                    ${post.author}
-                                    ${post.author === 'misha' ? '<span class="admin-badge">Admin</span>' : ''}
-                                </h4>
-                                <p>${formatTime(post.timestamp)}</p>
-                            </div>
-                        </div>
-                        ${currentUser === 'misha' ? `<button class="btn btn-danger" onclick="deletePost(${post.id})" style="padding: 5px 10px; font-size: 0.8rem;">🗑️ Удалить</button>` : ''}
-                    </div>
-                    
-                    <div class="post-content">
-                        ${post.text ? `<div class="post-text">${escapeHtml(post.text)}</div>` : ''}
-                        ${post.media ? `
-                            <div class="post-media">
-                                ${post.mediaType === 'image' ? `<img src="${post.media}" alt="Post image">` : `<video src="${post.media}" controls></video>`}
-                            </div>
-                        ` : ''}
-                    </div>
-                    
-                    <div class="post-stats">
-                        <button class="stat-btn ${post.likes.includes(currentUser) ? 'liked' : ''}" onclick="likePost(${post.id})">
-                            ❤️ ${post.likes.length}
-                        </button>
-                        <button class="stat-btn">
-                            💬 ${post.comments.length}
-                        </button>
-                    </div>
-                    
-                    <div class="comments-section">
-                        ${post.comments.map((comment, idx) => `
-                            <div class="comment">
-                                <div class="comment-header">
-                                    <span class="comment-author">${comment.author}</span>
-                                    ${currentUser === 'misha' ? `<button onclick="deleteComment(${post.id}, ${idx})" style="background: none; border: none; color: red; cursor: pointer;">🗑️</button>` : ''}
-                                </div>
-                                <div class="comment-text">${escapeHtml(comment.text)}</div>
-                            </div>
-                        `).join('')}
-                        
-                        ${currentUser ? `
-                            <div class="add-comment">
-                                <input type="text" id="comment-input-${post.id}" placeholder="Написать комментарий...">
-                                <button onclick="addComment(${post.id})">➤</button>
-                            </div>
-                        ` : `
-                            <p style="color: #999; font-size: 0.8rem;">Войдите, чтобы комментировать</p>
-                        `}
-                    </div>
-                </div>
-            `).join('');
-        }
-        
-        function escapeHtml(text) {
-            const div = document.createElement('div');
-            div.textContent = text;
-            return div.innerHTML;
-        }
-        
-        // Auth functions
-        function showLoginModal() {
-            document.getElementById('loginModal').style.display = 'flex';
-        }
-        
-        function closeLoginModal() {
-            document.getElementById('loginModal').style.display = 'none';
-        }
-        
-        function login() {
-            const username = document.getElementById('loginUsername').value.trim();
-            if (!username) {
-                alert('Введите имя пользователя');
-                return;
-            }
-            
-            currentUser = username;
-            localStorage.setItem('social_user', currentUser);
-            
-            closeLoginModal();
-            updateUI();
-            renderPosts();
-        }
-        
-        function logout() {
-            currentUser = null;
-            localStorage.removeItem('social_user');
-            updateUI();
-            renderPosts();
-        }
-        
-        function updateUI() {
-            const authButtons = document.getElementById('authButtons');
-            const userInfo = document.getElementById('userInfo');
-            const createPostArea = document.getElementById('createPostArea');
-            const usernameDisplay = document.getElementById('usernameDisplay');
-            
-            if (currentUser) {
-                authButtons.style.display = 'none';
-                userInfo.style.display = 'flex';
-                userInfo.style.alignItems = 'center';
-                userInfo.style.gap = '10px';
-                usernameDisplay.innerHTML = `<strong>${currentUser}</strong> ${currentUser === 'misha' ? '👑' : ''}`;
-                createPostArea.style.display = 'block';
-            } else {
-                authButtons.style.display = 'flex';
-                userInfo.style.display = 'none';
-                createPostArea.style.display = 'none';
-            }
-        }
-        
-        // Check saved user
-        const savedUser = localStorage.getItem('social_user');
-        if (savedUser) {
-            currentUser = savedUser;
-            updateUI();
-        }
-        
-        // Load data
-        loadData();
-        
-        // Close modal on click outside
-        window.onclick = function(event) {
-            const modal = document.getElementById('loginModal');
-            if (event.target === modal) {
-                closeLoginModal();
-            }
-        }
-    </script>
+        });
+        document.addEventListener("mouseup", function() { isDrag = false; });
+    }
+}
+
+function showStartMenu() { alert("🎓 KALI UNIVERSITY\nПолный курс этичного хакинга\n16 лекций | 14 лабораторных\nXP: " + userXP + "\nУровень: " + userLevel + "\n📧 09m13isha@gmail.com"); }
+
+loadProgress();
+setTimeout(function() { initTerminal(); makeDraggable(); openWindow("terminal"); }, 100);
+</script>
+
+<div style="position:fixed; bottom:5px; right:5px; background:#000; padding:4px 12px; border-radius:20px; font-size:10px; z-index:9999; font-family:monospace;">
+🎓 16 лекций | 14 лаб | 144 часа | Вводи команды в терминал
+</div>
 </body>
 </html>
