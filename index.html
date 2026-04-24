@@ -3,67 +3,441 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-<title>Kali Linux | Полный курс этичного хакинга — 16 лекций | 144 часа</title>
-<meta name="description" content="Полный курс этичного хакинга: 16 лекций, 14 лабораторных работ, практика в терминале. Направление 10.03.01 Информационная безопасность.">
-<meta name="keywords" content="этичный хакинг, обучение хакеров, kali linux, пентест, курс бакалавриата">
+<title>BlackArch OS — Полный курс этичного хакинга и Python</title>
 <style>
-*{margin:0;padding:0;box-sizing:border-box;}
-body{font-family:'Segoe UI','Fira Code',monospace;overflow:hidden;height:100vh;background:#0a0e1a;}
-.login-screen{position:fixed;top:0;left:0;width:100%;height:100%;background:linear-gradient(135deg,#0a0e1a,#1a1a2e);z-index:2000;display:flex;justify-content:center;align-items:center;}
-.login-card{background:rgba(15,25,45,0.95);border-radius:2rem;padding:2rem;width:450px;border:2px solid #2ecc71;text-align:center;}
-.login-card h2{color:#2ecc71;}
-.login-card .sub{color:#888;font-size:12px;margin-bottom:15px;}
-.login-input{width:100%;padding:12px;margin:10px 0;background:#0a0e17;border:1px solid #2ecc71;border-radius:1rem;color:white;outline:none;}
-.login-btn{background:#2ecc71;color:white;border:none;padding:12px;width:100%;border-radius:1rem;font-weight:bold;cursor:pointer;}
-.guest-btn{background:#3498db;margin-top:5px;}
-.switch-mode{color:#7f8c8d;margin-top:12px;cursor:pointer;font-size:12px;}
-.kali-desktop{width:100%;height:100vh;position:relative;overflow:hidden;display:none;background:radial-gradient(ellipse at 30% 40%,#1a2a3a,#0a0e1a);}
-.desktop-icons{position:absolute;top:15px;left:15px;display:flex;flex-direction:column;gap:12px;z-index:10;}
-.desktop-icon{display:flex;flex-direction:column;align-items:center;width:85px;cursor:pointer;padding:8px;border-radius:10px;background:rgba(0,0,0,0.4);color:white;backdrop-filter:blur(4px);transition:0.2s;}
-.desktop-icon:hover{background:rgba(46,204,113,0.3);transform:scale(1.03);}
-.desktop-icon span:first-child{font-size:32px;}
-.desktop-icon span:last-child{font-size:10px;margin-top:5px;text-align:center;}
-.taskbar{position:fixed;bottom:0;left:0;right:0;height:50px;background:rgba(15,20,30,0.95);border-top:1px solid #2ecc71;display:flex;align-items:center;padding:0 15px;gap:12px;z-index:1000;}
-.start-btn{background:#2ecc71;border:none;padding:6px 18px;border-radius:8px;color:white;cursor:pointer;font-weight:bold;}
-.user-info{background:rgba(46,204,113,0.2);padding:5px 15px;border-radius:20px;color:#2ecc71;font-size:11px;margin-left:auto;}
-.logout-btn{background:#e74c3c;border:none;padding:5px 15px;border-radius:8px;color:white;cursor:pointer;}
-.taskbar-apps{display:flex;gap:6px;flex:1;flex-wrap:wrap;}
-.taskbar-app{background:rgba(46,204,113,0.2);padding:4px 12px;border-radius:6px;color:white;font-size:10px;cursor:pointer;}
-.taskbar-time{color:white;font-size:12px;font-family:monospace;}
-.window{position:absolute;background:rgba(26,31,46,0.97);border-radius:12px;border:1px solid #2ecc71;display:none;flex-direction:column;backdrop-filter:blur(8px);}
-.window-header{background:rgba(15,20,34,0.95);padding:10px 15px;border-radius:12px 12px 0 0;display:flex;justify-content:space-between;cursor:move;border-bottom:1px solid #2ecc71;}
-.window-title{color:#2ecc71;font-weight:bold;}
-.window-controls span{color:white;cursor:pointer;margin-left:12px;font-size:16px;}
-.window-controls span:hover{color:#e74c3c;}
-.window-content{padding:20px;flex:1;overflow:auto;color:#cbd5e1;min-width:800px;min-height:550px;font-size:13px;line-height:1.5;}
-.terminal-window{background:rgba(10,14,23,0.98);font-family:'Fira Code',monospace;}
-.terminal-line{display:flex;gap:10px;margin-bottom:6px;}
-.terminal-prompt{color:#2ecc71;font-weight:bold;}
-.terminal-input{background:transparent;border:none;color:#b0f0b0;flex:1;outline:none;font-size:13px;font-family:monospace;}
-.terminal-history{max-height:450px;overflow-y:auto;margin-bottom:12px;font-size:12px;font-family:monospace;white-space:pre-wrap;}
-.lesson-card{background:rgba(15,23,42,0.95);padding:20px;border-radius:12px;margin:15px 0;border-left:4px solid #2ecc71;}
-.lesson-card h2{color:#f39c12;margin-bottom:10px;}
-.lesson-card h3{color:#3498db;margin:15px 0 10px;}
-.lesson-card p{margin:10px 0;line-height:1.5;}
-.lesson-card code{background:#0a0e17;padding:3px 8px;border-radius:5px;color:#f39c12;font-family:monospace;}
-.progress-bar{background:#2c3e50;height:10px;border-radius:10px;margin:10px 0;}
-.progress-fill{background:#2ecc71;height:100%;width:0%;transition:width 0.3s;}
-.btn{background:#2ecc71;border:none;padding:8px 16px;border-radius:8px;color:white;cursor:pointer;font-weight:bold;margin:5px;}
-.cmd-box{background:#0a0e17;padding:10px;border-radius:8px;margin:10px 0;border-left:3px solid #f39c12;}
-.cmd{color:#f39c12;font-weight:bold;font-family:monospace;}
-.badge{background:#2ecc71;color:#0a0e1a;display:inline-block;padding:3px 12px;border-radius:20px;font-size:11px;font-weight:bold;}
-.small-note{font-size:11px;color:#7f8c8d;margin-top:10px;padding:8px;background:#1a2a3a;border-radius:8px;}
-.warning-box{background:#3a1a1a;padding:12px;border-radius:10px;margin:10px 0;border-left:4px solid #e74c3c;}
-.success-box{background:#0a2f1f;padding:12px;border-radius:10px;margin:10px 0;border-left:4px solid #2ecc71;}
-.error-msg{color:#e74c3c;font-size:12px;}
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body {
+    font-family: 'Segoe UI', 'Fira Code', 'Courier New', monospace;
+    overflow: hidden;
+    height: 100vh;
+    background: #0a0e1a;
+}
+.login-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #0a0e1a, #1a1a2e);
+    z-index: 2000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.login-card {
+    background: rgba(15, 25, 45, 0.95);
+    border-radius: 2rem;
+    padding: 2rem;
+    width: 500px;
+    border: 2px solid #e74c3c;
+    text-align: center;
+}
+.login-card h2 {
+    color: #e74c3c;
+    margin-bottom: 5px;
+}
+.login-card .sub {
+    color: #aaa;
+    font-size: 12px;
+    margin-bottom: 15px;
+}
+.login-input {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    background: #0a0e17;
+    border: 1px solid #e74c3c;
+    border-radius: 1rem;
+    color: white;
+    outline: none;
+}
+.login-btn {
+    background: #e74c3c;
+    color: white;
+    border: none;
+    padding: 12px;
+    width: 100%;
+    border-radius: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    margin: 8px 0;
+}
+.guest-btn {
+    background: #c0392b;
+    margin-top: 5px;
+}
+.switch-mode {
+    color: #7f8c8d;
+    margin-top: 12px;
+    cursor: pointer;
+    font-size: 12px;
+}
+.desktop {
+    width: 100%;
+    height: 100vh;
+    position: relative;
+    overflow: hidden;
+    display: none;
+    background: radial-gradient(ellipse at 30% 40%, #1a1a1a, #0a0a0a);
+}
+.desktop-icons {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    z-index: 10;
+}
+.desktop-icon {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 85px;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 10px;
+    background: rgba(0,0,0,0.7);
+    color: white;
+    transition: 0.2s;
+    border: 1px solid #e74c3c;
+}
+.desktop-icon:hover {
+    background: rgba(231,76,60,0.4);
+    transform: scale(1.03);
+}
+.desktop-icon span:first-child {
+    font-size: 32px;
+}
+.desktop-icon span:last-child {
+    font-size: 10px;
+    margin-top: 5px;
+    text-align: center;
+}
+.taskbar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 50px;
+    background: rgba(0,0,0,0.95);
+    border-top: 1px solid #e74c3c;
+    display: flex;
+    align-items: center;
+    padding: 0 15px;
+    gap: 12px;
+    z-index: 1000;
+}
+.start-btn {
+    background: #e74c3c;
+    border: none;
+    padding: 6px 18px;
+    border-radius: 8px;
+    color: white;
+    cursor: pointer;
+    font-weight: bold;
+}
+.user-info {
+    background: rgba(231,76,60,0.2);
+    padding: 5px 15px;
+    border-radius: 20px;
+    color: #e74c3c;
+    font-size: 11px;
+    margin-left: auto;
+}
+.logout-btn {
+    background: #c0392b;
+    border: none;
+    padding: 5px 15px;
+    border-radius: 8px;
+    color: white;
+    cursor: pointer;
+}
+.taskbar-apps {
+    display: flex;
+    gap: 6px;
+    flex: 1;
+}
+.taskbar-app {
+    background: rgba(231,76,60,0.2);
+    padding: 4px 12px;
+    border-radius: 6px;
+    color: white;
+    font-size: 10px;
+    cursor: pointer;
+}
+.taskbar-time {
+    color: white;
+    font-size: 12px;
+}
+.window {
+    position: absolute;
+    background: rgba(20,20,30,0.98);
+    border-radius: 12px;
+    border: 1px solid #e74c3c;
+    display: none;
+    flex-direction: column;
+    backdrop-filter: blur(8px);
+}
+.window-header {
+    background: rgba(0,0,0,0.9);
+    padding: 10px 15px;
+    border-radius: 12px 12px 0 0;
+    display: flex;
+    justify-content: space-between;
+    cursor: move;
+    border-bottom: 1px solid #e74c3c;
+}
+.window-title {
+    color: #e74c3c;
+    font-weight: bold;
+}
+.window-controls span {
+    color: white;
+    cursor: pointer;
+    margin-left: 12px;
+    font-size: 16px;
+}
+.window-controls span:hover {
+    color: #e74c3c;
+}
+.window-content {
+    padding: 20px;
+    flex: 1;
+    overflow: auto;
+    color: #cbd5e1;
+    min-width: 800px;
+    min-height: 600px;
+    font-size: 13px;
+    line-height: 1.5;
+}
+.terminal-window {
+    background: rgba(0,0,0,0.95);
+    font-family: 'Fira Code', monospace;
+}
+.terminal-line {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 6px;
+}
+.terminal-prompt {
+    color: #e74c3c;
+    font-weight: bold;
+}
+.terminal-input {
+    background: transparent;
+    border: none;
+    color: #b0f0b0;
+    flex: 1;
+    outline: none;
+    font-size: 13px;
+    font-family: monospace;
+}
+.terminal-history {
+    max-height: 400px;
+    overflow-y: auto;
+    margin-bottom: 12px;
+    font-size: 12px;
+    white-space: pre-wrap;
+    font-family: monospace;
+}
+.lesson-card {
+    background: rgba(30,30,40,0.95);
+    padding: 20px;
+    border-radius: 12px;
+    margin: 15px 0;
+    border-left: 4px solid #e74c3c;
+}
+.lesson-card h2 {
+    color: #e74c3c;
+    margin-bottom: 10px;
+}
+.lesson-card h3 {
+    color: #f39c12;
+    margin: 15px 0 10px;
+}
+.lesson-card h4 {
+    color: #3498db;
+    margin: 10px 0;
+}
+.lesson-card pre {
+    background: #0a0e17;
+    padding: 15px;
+    border-radius: 8px;
+    overflow-x: auto;
+    font-family: monospace;
+    margin: 10px 0;
+}
+.lesson-card code {
+    background: #0a0e17;
+    padding: 2px 6px;
+    border-radius: 4px;
+    color: #f39c12;
+}
+.progress-bar {
+    background: #2c3e50;
+    height: 8px;
+    border-radius: 10px;
+    margin: 10px 0;
+}
+.progress-fill {
+    background: #e74c3c;
+    height: 100%;
+    width: 0%;
+}
+.btn {
+    background: #e74c3c;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 8px;
+    color: white;
+    cursor: pointer;
+    font-weight: bold;
+    margin: 5px;
+}
+.btn-download {
+    background: #27ae60;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 8px;
+    color: white;
+    cursor: pointer;
+    font-weight: bold;
+    margin: 5px;
+}
+.btn-run {
+    background: #3498db;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 8px;
+    color: white;
+    cursor: pointer;
+    font-weight: bold;
+    margin: 5px;
+}
+.cmd-box {
+    background: #0a0e17;
+    padding: 10px;
+    border-radius: 8px;
+    margin: 10px 0;
+}
+.cmd {
+    color: #e74c3c;
+    font-weight: bold;
+    font-family: monospace;
+}
+.badge {
+    background: #e74c3c;
+    color: white;
+    display: inline-block;
+    padding: 3px 12px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: bold;
+}
+.warning-box {
+    background: #3a1a1a;
+    padding: 15px;
+    border-radius: 10px;
+    margin: 15px 0;
+    border-left: 4px solid #e74c3c;
+}
+.success-box {
+    background: #0a2f1f;
+    padding: 15px;
+    border-radius: 10px;
+    margin: 15px 0;
+    border-left: 4px solid #2ecc71;
+}
+.info-box {
+    background: #1a3a5f;
+    padding: 15px;
+    border-radius: 10px;
+    margin: 15px 0;
+    border-left: 4px solid #3498db;
+}
+.file-item {
+    background: #1a1a2a;
+    padding: 12px;
+    margin: 8px 0;
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+}
+.file-item:hover {
+    background: #2a2a3a;
+}
+.file-name {
+    color: #e74c3c;
+}
+.file-size {
+    color: #7f8c8d;
+    font-size: 11px;
+}
+.upload-area {
+    border: 2px dashed #e74c3c;
+    border-radius: 12px;
+    padding: 20px;
+    text-align: center;
+    margin: 15px 0;
+}
+.python-editor {
+    background: #1a1a2a;
+    border-radius: 8px;
+    padding: 15px;
+    margin: 10px 0;
+}
+.python-code {
+    width: 100%;
+    background: #0a0e17;
+    border: 1px solid #e74c3c;
+    border-radius: 8px;
+    color: #b0f0b0;
+    font-family: monospace;
+    font-size: 13px;
+    padding: 12px;
+    resize: vertical;
+}
+.python-output {
+    background: #0a0e17;
+    border-radius: 8px;
+    padding: 12px;
+    margin-top: 10px;
+    font-family: monospace;
+    white-space: pre-wrap;
+    max-height: 200px;
+    overflow-y: auto;
+}
+.error-msg {
+    color: #e74c3c;
+}
+.small-note {
+    font-size: 11px;
+    color: #7f8c8d;
+    margin-top: 10px;
+}
+details {
+    margin: 10px 0;
+    cursor: pointer;
+}
+summary {
+    color: #f39c12;
+    font-weight: bold;
+}
 </style>
 </head>
 <body>
 
 <div class="login-screen" id="loginScreen">
 <div class="login-card">
-<h2>🎓 KALI UNIVERSITY</h2>
-<div class="sub">Полный курс этичного хакинга | Направление 10.03.01 | 144 часа</div>
+<h2>🎓 BLACKARCH OS</h2>
+<div class="sub">Полный курс этичного хакинга + Программирование на Python</div>
 <input type="text" id="loginUsername" class="login-input" placeholder="Имя студента">
 <input type="password" id="loginPassword" class="login-input" placeholder="Пароль">
 <button class="login-btn" onclick="login()">🔐 Войти</button>
@@ -80,45 +454,45 @@ body{font-family:'Segoe UI','Fira Code',monospace;overflow:hidden;height:100vh;b
 </div>
 </div>
 
-<div class="kali-desktop" id="kaliDesktop">
+<div class="desktop" id="desktop">
 <div class="desktop-icons">
 <div class="desktop-icon" onclick="openWindow('terminal')"><span>📟</span><span>Терминал</span></div>
 <div class="desktop-icon" onclick="openWindow('course')"><span>📚</span><span>Курс</span></div>
-<div class="desktop-icon" onclick="openWindow('labs')"><span>⚗️</span><span>Лабы</span></div>
+<div class="desktop-icon" onclick="openWindow('python')"><span>🐍</span><span>Python</span></div>
+<div class="desktop-icon" onclick="openWindow('files')"><span>📁</span><span>Файлы</span></div>
 <div class="desktop-icon" onclick="openWindow('profile')"><span>👤</span><span>Профиль</span></div>
-<div class="desktop-icon" onclick="openWindow('resources')"><span>⚙️</span><span>Ресурсы</span></div>
 </div>
 
-<div id="terminalWindow" class="window" style="width:900px; height:600px; top:20px; left:50px;">
-<div class="window-header"><span class="window-title">📟 Терминал — вводи команды из лекций</span><div class="window-controls"><span onclick="closeWindow('terminal')">✕</span></div></div>
+<div id="terminalWindow" class="window" style="width:850px; height:550px; top:20px; left:50px;">
+<div class="window-header"><span class="window-title">📟 Терминал — Команды для разведки</span><div class="window-controls"><span onclick="closeWindow('terminal')">✕</span></div></div>
 <div class="window-content terminal-window">
-<div id="termHistory" class="terminal-history">┌──(kali㉿student)-[~]\n└─$ <span style="color:#2ecc71">═══════════════════════════════════════════</span>\n└─$ <span style="color:#2ecc71">🎓 Полный курс этичного хакинга (16 лекций)</span>\n└─$ <span style="color:#f39c12">Введи 'help' для списка команд</span>\n└─$ <span style="color:#888">Открой КУРС (📚) → читай теорию → вводи команды</span></div>
+<div id="termHistory" class="terminal-history">┌──(blackarch㉿student)-[~]\n└─$ <span style="color:#e74c3c">Добро пожаловать в BLACKARCH OS!</span>\n└─$ <span style="color:#f39c12">Введи 'help' для списка команд</span>\n└─$ <span style="color:#888">Изучай курс → Практикуйся в Python → Получай XP</span></div>
 <div class="terminal-line"><span class="terminal-prompt">└─$</span><input type="text" id="termInput" class="terminal-input" placeholder="введите команду..."></div>
 </div>
 </div>
 
-<div id="courseWindow" class="window" style="width:1000px; height:720px; top:5px; left:20px;">
-<div class="window-header"><span class="window-title">📚 ПОЛНЫЙ КУРС — 16 ЛЕКЦИЙ (по РПД 10.03.01)</span><div class="window-controls"><span onclick="closeWindow('course')">✕</span></div></div>
+<div id="courseWindow" class="window" style="width:950px; height:720px; top:5px; left:20px;">
+<div class="window-header"><span class="window-title">📚 ПОЛНЫЙ КУРС ЭТИЧНОГО ХАКИНГА + PYTHON</span><div class="window-controls"><span onclick="closeWindow('course')">✕</span></div></div>
 <div class="window-content" id="courseContent"></div>
 </div>
 
-<div id="labsWindow" class="window" style="width:850px; height:650px; top:30px; left:60px;">
-<div class="window-header"><span class="window-title">⚗️ ЛАБОРАТОРНЫЕ РАБОТЫ — 14 ШТ</span><div class="window-controls"><span onclick="closeWindow('labs')">✕</span></div></div>
-<div class="window-content" id="labsContent"></div>
+<div id="pythonWindow" class="window" style="width:900px; height:650px; top:30px; left:60px;">
+<div class="window-header"><span class="window-title">🐍 PYTHON — Пиши и выполняй код</span><div class="window-controls"><span onclick="closeWindow('python')">✕</span></div></div>
+<div class="window-content" id="pythonContent"></div>
 </div>
 
-<div id="profileWindow" class="window" style="width:600px; height:550px; top:50px; left:120px;">
+<div id="filesWindow" class="window" style="width:750px; height:600px; top:40px; left:80px;">
+<div class="window-header"><span class="window-title">📁 ФАЙЛОВЫЙ МЕНЕДЖЕР — Сохраняй свои проекты</span><div class="window-controls"><span onclick="closeWindow('files')">✕</span></div></div>
+<div class="window-content" id="filesContent"></div>
+</div>
+
+<div id="profileWindow" class="window" style="width:550px; height:500px; top:50px; left:120px;">
 <div class="window-header"><span class="window-title">👤 ПРОФИЛЬ СТУДЕНТА</span><div class="window-controls"><span onclick="closeWindow('profile')">✕</span></div></div>
 <div class="window-content" id="profileContent"></div>
 </div>
 
-<div id="resourcesWindow" class="window" style="width:750px; height:600px; top:40px; left:80px;">
-<div class="window-header"><span class="window-title">⚙️ ПОЛЕЗНЫЕ РЕСУРСЫ</span><div class="window-controls"><span onclick="closeWindow('resources')">✕</span></div></div>
-<div class="window-content" id="resourcesContent"></div>
-</div>
-
 <div class="taskbar">
-<button class="start-btn" onclick="showStartMenu()">🎓 KALI UNI</button>
+<button class="start-btn" onclick="showStartMenu()">🎓 BLACKARCH</button>
 <div class="taskbar-apps" id="taskbarApps"></div>
 <div class="user-info" id="userInfoDisplay"></div>
 <button class="logout-btn" onclick="logout()">🚪 Выход</button>
@@ -127,107 +501,178 @@ body{font-family:'Segoe UI','Fira Code',monospace;overflow:hidden;height:100vh;b
 </div>
 
 <script>
-// ========== БАЗА КОМАНД С РЕАЛИСТИЧНЫМ ВЫВОДОМ ==========
+// ========== БАЗА КОМАНД ДЛЯ ТЕРМИНАЛА ==========
 var commandOutputs = {
-    "whoami": "kali",
-    "ls -la": "total 48\ndrwxr-xr-x 5 kali kali 4096 Jan 15 10:00 .\ndrwxr-xr-x 3 root root 4096 Jan 15 09:00 ..\ndrwxr-xr-x 2 kali kali 4096 Jan 15 10:00 Desktop\ndrwxr-xr-x 2 kali kali 4096 Jan 15 10:00 Documents",
-    "pwd": "/home/kali",
-    "cat /etc/passwd": "root:x:0:0:root:/root:/bin/bash\ndaemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin\nkali:x:1000:1000:Kali:/home/kali:/bin/bash",
-    "whois google.com": "Domain Name: google.com\nCreation Date: 1997-09-15\nRegistrar: MarkMonitor Inc.\nName Server: ns1.google.com",
-    "theHarvester -d example.com -b google": "[*] Searching in Google...\n[*] Total results: 42\nusers:\nadmin@example.com\nsecurity@example.com",
-    "nmap -sS localhost": "Starting Nmap 7.95\nNmap scan report for localhost (127.0.0.1)\nHost is up (0.0000040s latency).\nPORT     STATE SERVICE\n22/tcp   open  ssh\n80/tcp   open  http\n443/tcp  open  https",
-    "nmap -sV localhost": "Starting Nmap 7.95\nPORT     STATE SERVICE    VERSION\n22/tcp   open  ssh        OpenSSH 8.9p1 Ubuntu\n80/tcp   open  http       Apache httpd 2.4.52\n443/tcp  open  ssl/http   Apache httpd 2.4.52",
-    "nmap -O localhost": "Starting Nmap 7.95\nDevice type: general purpose\nRunning: Linux 5.X\nOS details: Linux 5.0 - 6.5",
-    "nmap -sC localhost": "Starting Nmap 7.95\nNSE: Loaded 155 scripts for scanning.\n22/tcp open  ssh\n| ssh-hostkey: \n|   3072 SHA256:abc123... (RSA)\n80/tcp open  http\n|_http-title: Apache2 Ubuntu Default Page",
-    "nmap -A localhost": "Starting Nmap 7.95\nPORT     STATE SERVICE    VERSION\n22/tcp   open  ssh        OpenSSH 8.9p1\n80/tcp   open  http       Apache httpd 2.4.52\nDevice type: general purpose\nRunning: Linux 5.X\nOS details: Linux 5.0 - 6.5",
-    "nmap -p- localhost": "Starting Nmap 7.95\nPORT     STATE SERVICE\n22/tcp   open  ssh\n80/tcp   open  http\n443/tcp  open  https\n8080/tcp open  http-proxy",
-    "nmap -T4 localhost": "Starting Nmap 7.95\nIncreasing send delay for 127.0.0.1 from 0 to 5 due to 11 out of 11 dropped probes since last increase.\n22/tcp open  ssh\n80/tcp open  http\n443/tcp open  https",
-    "nmap --script vuln localhost": "Starting Nmap 7.95\nNSE: running http-vuln-* against localhost\n22/tcp open  ssh\n80/tcp open  http\n|_http-vuln-cve: No known vulnerabilities found",
-    "tcpdump -i lo -c 5": "tcpdump: verbose output suppressed\nlistening on lo, link-type EN10MB\n12:34:56.789012 IP localhost.54321 > localhost.80: Flags [S], seq 123456789\n12:34:56.789123 IP localhost.80 > localhost.54321: Flags [S.], seq 987654321\n12:34:56.789234 IP localhost.54321 > localhost.80: Flags [.], ack 1\n12:34:56.789345 IP localhost.54321 > localhost.80: Flags [P.], seq 1:89\n12:34:56.789456 IP localhost.80 > localhost.54321: Flags [.], ack 89\n5 packets captured",
-    "tcpdump -i lo port 80": "tcpdump: listening on lo\n12:34:56.789012 IP localhost.54321 > localhost.80: Flags [S], seq 111111\n12:34:56.789123 IP localhost.80 > localhost.54321: Flags [S.], seq 222222",
-    "tcpdump -i lo src 127.0.0.1": "tcpdump: listening on lo\n12:34:56.789012 IP localhost.54321 > localhost.80: Flags [S], seq 123",
-    "hashcat --help": "hashcat (v6.2.6) starting in help mode\n\nUsage: hashcat [options]... hashfile [wordlist|directory]\n\n## [ Hash modes ]\n## MD5             = 0\n## SHA1            = 100\n## SHA256          = 1400\n## NTLM            = 1000\n## WPA/WPA2        = 2500",
-    "hashcat -m 0 -a 0 hash.txt rockyou.txt": "hashcat (v6.2.6) starting\n\n5f4dcc3b5aa765d61d8327deb882cf99:password\n\nSession..........: hashcat\nStatus...........: Cracked\n\nCracked MD5: password",
-    "airmon-ng": "Interface\tPHY\tDriver\nwlan0\t\tphy0\tiwlwifi\n\n[*] Driver may be susceptible to rfkill",
-    "airmon-ng start wlan0": "Found 1 processes that could cause trouble.\nPHY\tInterface\tDriver\nphy0\twlan0\t\tiwlwifi\n(mac80211 monitor mode vif enabled for wlan0mon)",
-    "airodump-ng wlan0mon": "CH  6 ][ Elapsed: 0 mins\nBSSID              PWR  Beacons    #Data   CH   MB   ENC  Cipher AUTH ESSID\nAA:BB:CC:DD:EE:FF  -34        5        0    6   54e  WPA2 CCMP   PSK  CoffeeShop_WiFi",
-    "aircrack-ng -w rockyou.txt handshake.cap": "Opening handshake.cap\nRead 123 packets.\n\n                               KEY FOUND! [ coffee123 ]\n\nThe password is 'coffee123'",
-    "sqlmap --help": "sqlmap/1.8.7#dev\nUsage: python3 sqlmap [options]\n\nExample: sqlmap -u 'http://test.com/index.php?id=1' --dbs",
-    "sqlmap -u 'http://test.com/index.php?id=1' --dbs": "available databases [4]:\n[*] information_schema\n[*] mysql\n[*] performance_schema\n[*] test_db",
-    "msfconsole --help": "Metasploit Framework Console\nUsage: msfconsole [options]\n\nCommon commands: help, search, use, set, exploit",
-    "search eternalblue": "Matching Modules\n================\n   #  Name                                           Disclosure Date  Rank\n   0  exploit/windows/smb/ms17_010_eternalblue       2017-03-14       average",
-    "ping -c 4 google.com": "PING google.com (142.250.185.46) 56(84) bytes of data.\n64 bytes from 142.250.185.46: icmp_seq=1 ttl=115 time=12.3 ms\n64 bytes from 142.250.185.46: icmp_seq=2 ttl=115 time=12.1 ms\n64 bytes from 142.250.185.46: icmp_seq=3 ttl=115 time=12.5 ms\n64 bytes from 142.250.185.46: icmp_seq=4 ttl=115 time=12.2 ms\n\n--- google.com ping statistics ---\n4 packets transmitted, 4 received, 0% packet loss",
-    "traceroute google.com": "traceroute to google.com (142.250.185.46), 30 hops max\n 1  _gateway (192.168.1.1)  1.234 ms\n 2  10.0.0.1 (10.0.0.1)  5.678 ms\n 3  142.250.185.46 (142.250.185.46)  12.345 ms",
-    "iptables -L": "Chain INPUT (policy ACCEPT)\ntarget     prot opt source               destination\n\nChain FORWARD (policy ACCEPT)\nChain OUTPUT (policy ACCEPT)",
-    "gdb --help": "GNU gdb (Debian 13.1-2) 13.1\nUsage: gdb [options] [executable-file]",
-    "objdump -d /bin/ls | head -10": "/bin/ls:     file format elf64-x86-64\n\nDisassembly of section .text:\n0000000000003000 <.text>:\n    3000:       f3 0f 1e fa             endbr64\n    3004:       41 57                   push   %r15",
-    "openssl version": "OpenSSL 3.0.11 19 Sep 2023",
-    "date": "Wed Jan 15 12:34:56 UTC 2025",
+    "whoami": "student",
+    "ls -la": "total 48\ndrwxr-xr-x 5 student student 4096 Jan 15 10:00 .",
+    "pwd": "/home/student",
+    "nslookup google.com": "Server: 8.8.8.8\nAddress: 8.8.8.8#53\nNon-authoritative answer:\nName: google.com\nAddress: 142.250.185.46",
+    "ping google.com": "PING google.com (142.250.185.46) 56(84) bytes of data.\n64 bytes from 142.250.185.46: icmp_seq=1 ttl=115 time=12.3 ms",
+    "whois google.com": "Domain Name: google.com\nCreation Date: 1997-09-15\nRegistrar: MarkMonitor Inc.",
+    "nmap -sS localhost": "Starting Nmap 7.95\nPORT     STATE SERVICE\n22/tcp   open  ssh\n80/tcp   open  http",
     "help": "HELP",
     "clear": "CLEAR"
 };
 
-// ========== ПОЛНЫЙ КУРС — 16 ЛЕКЦИЙ ==========
+// ========== ЛЕКЦИИ КУРСА ==========
 var lectures = [
-    { id:1, title:"Лекция 1: Введение в этичный хакинг", theory:"<div class='badge'>📖 Лекция 1 | Модуль 1 | 2 ак.ч</div><h2>🎓 Что такое этичный хакинг?</h2><p>Этичный хакинг (White Hat) — законное тестирование систем на уязвимости с разрешения владельца.</p><h3>⚖️ Правовые аспекты (ст.272-274 УК РФ)</h3><p><strong>Ст.272</strong> — Неправомерный доступ (до 2 лет)<br><strong>Ст.273</strong> — Создание вредоносных программ (до 7 лет)</p><h3>👥 Типы хакеров</h3><p>White Hat, Black Hat, Grey Hat, Red Team, Blue Team</p>", cmds:["whoami","ls -la","pwd"], xp:30, done:false, cmdDone:[] },
-    { id:2, title:"Лекция 2: OSINT — разведка по открытым источникам", theory:"<div class='badge'>📖 Лекция 2 | Модуль 1 | 2 ак.ч</div><h2>🕵️ Что такое OSINT?</h2><p>OSINT (Open Source Intelligence) — сбор информации из открытых источников.</p><h3>🔧 Инструменты OSINT</h3><p>theHarvester, Maltego, Shodan, Censys</p>", cmds:["whois google.com"], xp:30, done:false, cmdDone:[] },
-    { id:3, title:"Лекция 3: Nmap — основы сканирования", theory:"<div class='badge'>📖 Лекция 3 | Модуль 2 | 2 ак.ч</div><h2>🔍 Nmap — сканирование портов</h2><p>Типы сканирования: -sS (SYN), -sT (TCP connect), -sU (UDP)</p>", cmds:["nmap -sS localhost","nmap -sV localhost"], xp:40, done:false, cmdDone:[] },
-    { id:4, title:"Лекция 4: Nmap — продвинутые техники", theory:"<div class='badge'>📖 Лекция 4 | Модуль 2 | 2 ак.ч</div><h2>⚡ Продвинутый Nmap</h2><p>NSE скрипты, тайминги -T0 до -T5, определение ОС (-O)</p>", cmds:["nmap -O localhost","nmap -sC localhost","nmap -A localhost","nmap -p- localhost","nmap -T4 localhost"], xp:50, done:false, cmdDone:[] },
-    { id:5, title:"Лекция 5: Анализ трафика — tcpdump", theory:"<div class='badge'>📖 Лекция 5 | Модуль 2 | 2 ак.ч</div><h2>📡 tcpdump — захват пакетов</h2><p>Флаги: -i, -c, -w, -r. Фильтры BPF: host, port, src, dst</p>", cmds:["tcpdump -i lo -c 5","tcpdump -i lo port 80"], xp:40, done:false, cmdDone:[] },
-    { id:6, title:"Лекция 6: Wireshark и анализ протоколов", theory:"<div class='badge'>📖 Лекция 6 | Модуль 2 | 2 ак.ч</div><h2>📊 Wireshark — графический сниффер</h2><p>Фильтры: http.request, tcp.port==443, dns.qry.name</p>", cmds:["tcpdump -i lo src 127.0.0.1"], xp:35, done:false, cmdDone:[] },
-    { id:7, title:"Лекция 7: Hashcat — взлом хешей MD5/SHA1", theory:"<div class='badge'>📖 Лекция 7 | Модуль 3 | 2 ак.ч</div><h2>🔐 Hashcat — словарные атаки</h2><p>Типы хешей: MD5 (0), SHA1 (100), NTLM (1000)</p>", cmds:["hashcat --help"], xp:35, done:false, cmdDone:[] },
-    { id:8, title:"Лекция 8: Hashcat — брутфорс и маски", theory:"<div class='badge'>📖 Лекция 8 | Модуль 3 | 2 ак.ч</div><h2>🎭 Маски в hashcat</h2><p>?l=a-z, ?u=A-Z, ?d=0-9, ?s=спецсимволы</p>", cmds:["hashcat -m 0 -a 0 hash.txt rockyou.txt"], xp:45, done:false, cmdDone:[] },
-    { id:9, title:"Лекция 9: Aircrack-ng — Wi-Fi безопасность", theory:"<div class='warning-box'>⚠️ ТОЛЬКО ДЛЯ СВОИХ СЕТЕЙ</div><h2>📡 Aircrack-ng suite</h2><p>airmon-ng, airodump-ng, aireplay-ng, aircrack-ng</p>", cmds:["airmon-ng"], xp:40, done:false, cmdDone:[] },
-    { id:10, title:"Лекция 10: SQL-инъекции", theory:"<div class='badge'>📖 Лекция 10 | Модуль 3 | 2 ак.ч</div><h2>💉 SQL-инъекции</h2><p>Типы: Union, Boolean, Time-based. Инструмент: sqlmap</p>", cmds:["sqlmap --help"], xp:40, done:false, cmdDone:[] },
-    { id:11, title:"Лекция 11: Metasploit Framework", theory:"<div class='badge'>📖 Лекция 11 | Модуль 3 | 2 ак.ч</div><h2>🤖 Metasploit</h2><p>Компоненты: exploit, payload, meterpreter</p>", cmds:["msfconsole --help"], xp:35, done:false, cmdDone:[] },
-    { id:12, title:"Лекция 12: Сетевые утилиты (ping, traceroute)", theory:"<div class='badge'>📖 Лекция 12 | Модуль 2 | 2 ак.ч</div><h2>🌐 Диагностика сети</h2><p>ping, traceroute, whois, iptables</p>", cmds:["ping -c 4 google.com","traceroute google.com"], xp:30, done:false, cmdDone:[] },
-    { id:13, title:"Лекция 13: Файрволы (iptables)", theory:"<div class='badge'>📖 Лекция 13 | Модуль 4 | 2 ак.ч</div><h2>🛡️ Защита — iptables</h2><p>Цепочки: INPUT, OUTPUT, FORWARD. Действия: ACCEPT, DROP, REJECT</p>", cmds:["iptables -L"], xp:35, done:false, cmdDone:[] },
-    { id:14, title:"Лекция 14: Реверс-инжиниринг (GDB, objdump)", theory:"<div class='badge'>📖 Лекция 14 | Модуль 4 | 2 ак.ч</div><h2>🔧 Реверс-инжиниринг</h2><p>Инструменты: gdb, objdump, Ghidra, IDA</p>", cmds:["gdb --help","objdump -d /bin/ls | head -10"], xp:40, done:false, cmdDone:[] },
-    { id:15, title:"Лекция 15: Шифрование (OpenSSL)", theory:"<div class='badge'>📖 Лекция 15 | Модуль 4 | 2 ак.ч</div><h2>🔐 Шифрование и OpenSSL</h2><p>Симметричное и асимметричное шифрование</p>", cmds:["openssl version"], xp:30, done:false, cmdDone:[] },
-    { id:16, title:"Лекция 16: Итоговая аттестация", theory:"<div class='badge'>📖 Лекция 16 | Защита проекта</div><h2>🏆 Итоговая аттестация</h2><p>Защита курсового проекта. Пентест корпоративной сети.</p>", cmds:["date"], xp:50, done:false, cmdDone:[] }
+    { id:0, title:"Модуль 0: Введение и предупреждение", theory:"<div class='warning-box'><h3>⚠️ ВАЖНОЕ ПРЕДУПРЕЖДЕНИЕ</h3><p><strong>Этичный хакер — это 'хороший хакер'</strong></p><p>✅ Что МОЖНО: взламывать только свои устройства, тестировать сайты с РАЗРЕШЕНИЯ</p><p>❌ Что НЕЛЬЗЯ: взламывать чужие аккаунты, атаковать сайты без разрешения, воровать данные</p><p>🎯 ЗОЛОТОЕ ПРАВИЛО: 'НЕТ РАЗРЕШЕНИЯ — НЕ ТРОГАЙ!'</p></div>", cmds:["whoami"], xp:10, done:false, cmdDone:[] },
+    { id:1, title:"Модуль 1: Как работает интернет", theory:"<h2>🌐 Как работает интернет (для хакеров)</h2><p><strong>IP-адрес</strong> — как адрес дома (улица, дом, квартира)</p><p><strong>Порт</strong> — как номер квартиры/офиса</p><p><strong>Команды для разведки:</strong><br><code>nslookup google.com</code> — узнать IP сайта<br><code>ping google.com</code> — проверить, жив ли сайт</p>", cmds:["nslookup google.com","ping google.com"], xp:15, done:false, cmdDone:[] },
+    { id:2, title:"Модуль 2: Разведка (Reconnaissance)", theory:"<h2>🕵️ Разведка — сбор информации</h2><p><strong>whois</strong> — узнаём владельца домена</p><p><strong>Google Dorks</strong> — специальные команды для поиска:<br><code>site:school.ru</code> — всё на сайте школы<br><code>filetype:pdf 'секретно'</code> — поиск PDF-файлов</p>", cmds:["whois google.com"], xp:15, done:false, cmdDone:[] },
+    { id:3, title:"Модуль 3: Сканирование сетей", theory:"<h2>📡 Nmap — сканирование портов</h2><p>Nmap — как радар для сети. Показывает открытые порты.</p><p><code>nmap -sS localhost</code> — 'стелс-сканирование'</p><p>Результат: PORT 22/tcp open ssh, 80/tcp open http</p>", cmds:["nmap -sS localhost"], xp:20, done:false, cmdDone:[] },
+    { id:4, title:"Модуль 4: Социальная инженерия", theory:"<h2>🎭 Социальная инженерия — взлом людей</h2><p><strong>Фишинг</strong> — поддельное письмо/сайт</p><p><strong>Претекстинг</strong> — притворяются другим человеком</p><p><strong>Как распознать фишинг:</strong><br>1. Проверь отправителя (адрес email)<br>2. Наведи мышку на ссылку<br>3. Ищи грамматические ошибки<br>4. Никто не просит пароль по почте!</p>", cmds:[], xp:25, done:false, cmdDone:[] },
+    { id:5, title:"Модуль 5: Безопасные пароли", theory:"<h2>🔐 Как создать надёжный пароль</h2><p><strong>Самые плохие пароли:</strong> 123456, password, qwerty, admin</p><p><strong>Метод «История»:</strong><br>1. Придумай предложение: 'Моего кота зовут Барсик!'<br>2. Возьми первые буквы: МкзБ, зБ!<br>3. Добавь цифры: MkzB_0ler!2024</p><p><strong>Метод «3 случайных слова»:</strong><br>СинийПопугайТелефон<br>КотёнокПиццаРакета</p>", cmds:[], xp:20, done:false, cmdDone:[] },
+    { id:6, title:"Модуль 6: Что такое Python", theory:"<h2>🐍 Что такое Python?</h2><p>Python — язык программирования, на котором мы будем писать свои программы.</p><div class='cmd-box'>print('Привет, мир!')</div><p>Это команда «скажи». Скобки и кавычки говорят компьютеру: «Вот что именно сказать».</p>", cmds:[], xp:15, done:false, cmdDone:[] },
+    { id:7, title:"Модуль 7: Переменные и типы данных", theory:"<h2>📦 Переменные — коробочки с именем</h2><div class='cmd-box'>возраст = 10<br>имя = 'Маша'</div><p><strong>Типы данных:</strong><br>• str (string) — текст: 'Привет'<br>• int (integer) — целые числа: 5, 100<br>• float — дробные числа: 3.14</p>", cmds:[], xp:15, done:false, cmdDone:[] },
+    { id:8, title:"Модуль 8: Условия (if/else)", theory:"<h2>🔀 Условия — делаем выбор</h2><div class='cmd-box'>оценка = 85<br>if оценка >= 90:<br>    print('Отлично!')<br>elif оценка >= 70:<br>    print('Хорошо!')<br>else:<br>    print('Нужно учить!')</div>", cmds:[], xp:20, done:false, cmdDone:[] },
+    { id:9, title:"Модуль 9: Циклы for и while", theory:"<h2>🔄 Циклы — повторяем действия</h2><div class='cmd-box'>for i in range(5):<br>    print('Я люблю Python!')</div><div class='cmd-box'>счётчик = 1<br>while счётчик <= 5:<br>    print('Повтор номер ' + str(счётчик))<br>    счётчик = счётчик + 1</div>", cmds:[], xp:20, done:false, cmdDone:[] },
+    { id:10, title:"Модуль 10: Списки", theory:"<h2>🗂️ Списки — коробка с ячейками</h2><div class='cmd-box'>список_покупок = ['молоко', 'хлеб', 'яблоки']<br>print(список_покупок[0])  # молоко<br>список_покупок.append('сыр')  # добавить</div>", cmds:[], xp:15, done:false, cmdDone:[] },
+    { id:11, title:"Модуль 11: Функции", theory:"<h2>🧩 Функции — мини-программы</h2><div class='cmd-box'>def приветствие(имя):<br>    print('Привет, ' + имя + '!')<br><br>приветствие('Аня')</div>", cmds:[], xp:20, done:false, cmdDone:[] },
+    { id:12, title:"Модуль 12: Твой первый проект — Калькулятор", theory:"<h2>🧮 КАЛЬКУЛЯТОР</h2><p>Скопируй этот код в окно Python и запусти!</p><div class='cmd-box'><pre>число1 = float(input('Первое число: '))<br>число2 = float(input('Второе число: '))<br>print('1 +, 2 -, 3 *, 4 /')<br>действие = input('Выбор: ')<br>if действие == '1':<br>    print(число1 + число2)<br>elif действие == '2':<br>    print(число1 - число2)<br>elif действие == '3':<br>    print(число1 * число2)<br>elif действие == '4':<br>    print(число1 / число2)</pre></div>", cmds:[], xp:30, done:false, cmdDone:[] },
+    { id:13, title:"Модуль 13: Итоговый экзамен", theory:"<h2>📝 ЭКЗАМЕН</h2><p><strong>Задание 1:</strong> Напиши программу «Приветствие» — спроси имя и скажи «Привет, [имя]!»</p><p><strong>Задание 2:</strong> Напиши программу, которая проверяет, чётное число или нет.</p><p><strong>Задание 3:</strong> Выведи таблицу умножения для числа 7.</p><p><strong>Задание 4:</strong> Напиши функцию, которая возвращает максимальное из двух чисел.</p><p><strong>Задание 5:</strong> Создай игру «Угадай слово».</p>", cmds:[], xp:50, done:false, cmdDone:[] }
 ];
 
-// ========== 14 ЛАБОРАТОРНЫХ РАБОТ ==========
-var labs = [
-    { id:1, name:"Лабораторная 1: Знакомство с Kali Linux", cmd:"whoami", desc:"Введи whoami для определения текущего пользователя", done:false },
-    { id:2, name:"Лабораторная 2: OSINT сбор информации", cmd:"whois google.com", desc:"Собери информацию о домене google.com", done:false },
-    { id:3, name:"Лабораторная 3: Базовое сканирование Nmap", cmd:"nmap -sV localhost", desc:"Выполни сканирование портов с определением версий", done:false },
-    { id:4, name:"Лабораторная 4: Продвинутое сканирование", cmd:"nmap -A localhost", desc:"Агрессивное сканирование (ОС, версии, трейсировка)", done:false },
-    { id:5, name:"Лабораторная 5: Захват трафика (tcpdump)", cmd:"tcpdump -i lo -c 5", desc:"Захвати 5 пакетов на loopback интерфейсе", done:false },
-    { id:6, name:"Лабораторная 6: Фильтрация трафика", cmd:"tcpdump -i lo port 80", desc:"Захвати только HTTP пакеты (порт 80)", done:false },
-    { id:7, name:"Лабораторная 7: Hashcat — справка", cmd:"hashcat --help", desc:"Изучи справку по hashcat", done:false },
-    { id:8, name:"Лабораторная 8: Wi-Fi интерфейсы", cmd:"airmon-ng", desc:"Посмотри доступные Wi-Fi интерфейсы", done:false },
-    { id:9, name:"Лабораторная 9: SQLmap справка", cmd:"sqlmap --help", desc:"Изучи справку по SQLmap", done:false },
-    { id:10, name:"Лабораторная 10: Metasploit справка", cmd:"msfconsole --help", desc:"Изучи справку по Metasploit", done:false },
-    { id:11, name:"Лабораторная 11: Сетевая диагностика", cmd:"ping -c 4 google.com", desc:"Отправь 4 ICMP запроса к google.com", done:false },
-    { id:12, name:"Лабораторная 12: Маршрутизация", cmd:"traceroute google.com", desc:"Отследи маршрут до google.com", done:false },
-    { id:13, name:"Лабораторная 13: Файрвол (iptables)", cmd:"iptables -L", desc:"Посмотри правила файрвола", done:false },
-    { id:14, name:"Лабораторная 14: Реверс-инжиниринг", cmd:"gdb --help", desc:"Изучи справку по GDB", done:false }
-];
-
-// ========== ПЕРЕМЕННЫЕ ==========
+var userFiles = [];
 var currentUser = null;
 var isGuest = false;
 var userXP = 0;
 var userLevel = 1;
 var activeWindows = [];
+var pythonEditorContent = "";
+var pythonOutput = "";
 
-function getUsers() { var s = localStorage.getItem("fullCourse16"); return s ? JSON.parse(s) : {}; }
-function saveUsers(u) { localStorage.setItem("fullCourse16", JSON.stringify(u)); }
+function executePython() {
+    var code = document.getElementById("pythonCodeArea");
+    if (!code) return;
+    var output = document.getElementById("pythonOutputArea");
+    if (!output) return;
+    var originalConsoleLog = console.log;
+    var logs = [];
+    console.log = function() {
+        logs.push(Array.from(arguments).join(" "));
+        if (output) output.innerHTML += Array.from(arguments).join(" ") + "\n";
+    };
+    try {
+        logs = [];
+        if (output) output.innerHTML = "";
+        var result = eval(code.value);
+        if (result !== undefined && logs.length === 0) {
+            if (output) output.innerHTML += String(result) + "\n";
+        }
+    } catch(e) {
+        if (output) output.innerHTML += "Ошибка: " + e.message + "\n";
+    }
+    console.log = originalConsoleLog;
+    savePythonCode(code.value);
+}
+
+function savePythonCode(code) {
+    localStorage.setItem("pythonCode_" + (currentUser || "guest"), code);
+}
+
+function loadPythonCode() {
+    var saved = localStorage.getItem("pythonCode_" + (currentUser || "guest"));
+    if (saved) {
+        pythonEditorContent = saved;
+        var codeArea = document.getElementById("pythonCodeArea");
+        if (codeArea) codeArea.value = saved;
+    } else {
+        pythonEditorContent = 'print("Добро пожаловать в Python!")\nprint("Попробуй написать свой код!")';
+        var codeArea = document.getElementById("pythonCodeArea");
+        if (codeArea) codeArea.value = pythonEditorContent;
+    }
+}
+
+function renderPython() {
+    var container = document.getElementById("pythonContent");
+    if (!container) return;
+    container.innerHTML = '<h1>🐍 PYTHON — ПРАКТИКУЙСЯ ЗДЕСЬ</h1><div class="info-box"><h3>📖 Инструкция:</h3><p>1. Пиши код в поле ниже<br>2. Нажми «ВЫПОЛНИТЬ» — увидишь результат<br>3. Нажми «СОХРАНИТЬ» — код сохранится в твой аккаунт</p></div><div class="python-editor"><textarea id="pythonCodeArea" class="python-code" rows="15" placeholder="Напиши свой Python код здесь..."></textarea><div><button class="btn-run" onclick="executePython()">▶ ВЫПОЛНИТЬ</button><button class="btn-download" onclick="savePythonCode(document.getElementById(\'pythonCodeArea\').value); alert(\'✅ Код сохранён!\');">💾 СОХРАНИТЬ</button></div><div id="pythonOutputArea" class="python-output">Результат будет здесь...</div></div>';
+    var savedCode = localStorage.getItem("pythonCode_" + (currentUser || "guest"));
+    var codeArea = document.getElementById("pythonCodeArea");
+    if (codeArea) {
+        if (savedCode) codeArea.value = savedCode;
+        else codeArea.value = 'print("Добро пожаловать в Python!")\n\n# Попробуй написать свой код\nname = input("Как тебя зовут? ")\nprint("Привет, " + name + "!")';
+    }
+}
+
+function loadUserFiles() {
+    var saved = localStorage.getItem("userFiles_" + (currentUser || "guest"));
+    if (saved) userFiles = JSON.parse(saved);
+    else userFiles = [];
+}
+
+function saveUserFiles() {
+    localStorage.setItem("userFiles_" + (currentUser || "guest"), JSON.stringify(userFiles));
+}
+
+function uploadFile() {
+    var input = document.getElementById("fileUploadInput");
+    if (!input.files || input.files.length === 0) { alert("Выберите файл!"); return; }
+    var file = input.files[0];
+    var reader = new FileReader();
+    reader.onload = function(e) {
+        userFiles.push({ name: file.name, data: e.target.result, size: file.size, date: new Date().toISOString() });
+        saveUserFiles();
+        renderFiles();
+        input.value = "";
+        alert("✅ Файл сохранён на сайте!");
+    };
+    reader.readAsDataURL(file);
+}
+
+function deleteFile(index) {
+    userFiles.splice(index, 1);
+    saveUserFiles();
+    renderFiles();
+}
+
+function downloadFromSite(fileData, fileName) {
+    var blob = new Blob([fileData], {type: "application/octet-stream"});
+    var a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = fileName;
+    a.click();
+    URL.revokeObjectURL(a.href);
+}
+
+function openFile(file) {
+    if (file.name.endsWith('.py')) {
+        var codeArea = document.getElementById("pythonCodeArea");
+        if (codeArea) {
+            var content = atob(file.data.split(',')[1]);
+            codeArea.value = content;
+            savePythonCode(content);
+            alert("📄 Файл загружен в редактор Python!");
+        }
+    } else {
+        alert("Файл: " + file.name + "\nРазмер: " + (file.size/1024).toFixed(2) + " KB");
+    }
+}
+
+function renderFiles() {
+    var container = document.getElementById("filesContent");
+    if (!container) return;
+    var html = '<h1>📁 ФАЙЛОВЫЙ МЕНЕДЖЕР</h1><div class="upload-area"><input type="file" id="fileUploadInput" style="margin:10px 0;"><button class="btn-download" onclick="uploadFile()">📤 Загрузить на сайт</button><p class="small-note">✅ Файлы сохраняются в твоём аккаунте</p></div><h2>📂 Мои файлы (' + userFiles.length + ' шт)</h2>';
+    if (userFiles.length === 0) html += '<div class="lesson-card">📭 Нет загруженных файлов. Нажми "Загрузить на сайт"!</div>';
+    else {
+        for (var i = 0; i < userFiles.length; i++) {
+            var f = userFiles[i];
+            html += '<div class="file-item"><div><span class="file-name">📄 ' + f.name + '</span><br><span class="file-size">' + (f.size/1024).toFixed(2) + ' KB | ' + new Date(f.date).toLocaleDateString() + '</span></div><div><button class="btn-run" onclick="openFile(userFiles[' + i + '])">👁️ Открыть</button><button class="btn-download" onclick="downloadFromSite(userFiles[' + i + '].data, userFiles[' + i + '].name)">📥 Скачать</button><button class="btn-delete" style="background:#c0392b;border:none;padding:5px 12px;border-radius:6px;color:white;cursor:pointer;" onclick="deleteFile(' + i + ')">🗑️ Удалить</button></div></div>';
+        }
+    }
+    container.innerHTML = html;
+}
+
+function getUsers() { var s = localStorage.getItem("blackarchUsers"); return s ? JSON.parse(s) : {}; }
+function saveUsers(u) { localStorage.setItem("blackarchUsers", JSON.stringify(u)); }
 
 function saveProgress() {
     if (!currentUser || isGuest) return;
     var users = getUsers();
     if (users[currentUser]) {
         var lecData = [];
-        for (var i = 0; i < lectures.length; i++) {
-            lecData.push({ done: lectures[i].done, cmdDone: lectures[i].cmdDone });
-        }
-        var labData = [];
-        for (var i = 0; i < labs.length; i++) {
-            labData.push({ done: labs[i].done });
-        }
-        users[currentUser].progress = { xp: userXP, level: userLevel, lectures: lecData, labs: labData };
+        for (var i = 0; i < lectures.length; i++) { lecData.push({ done: lectures[i].done, cmdDone: lectures[i].cmdDone }); }
+        users[currentUser].progress = { xp: userXP, level: userLevel, lectures: lecData };
         saveUsers(users);
     }
 }
@@ -237,17 +682,11 @@ function loadProgress() {
     var users = getUsers();
     if (users[currentUser] && users[currentUser].progress) {
         var p = users[currentUser].progress;
-        userXP = p.xp || 0;
-        userLevel = p.level || 1;
+        userXP = p.xp || 0; userLevel = p.level || 1;
         if (p.lectures) {
             for (var i = 0; i < p.lectures.length && i < lectures.length; i++) {
                 lectures[i].done = p.lectures[i].done || false;
                 lectures[i].cmdDone = p.lectures[i].cmdDone || [];
-            }
-        }
-        if (p.labs) {
-            for (var i = 0; i < p.labs.length && i < labs.length; i++) {
-                labs[i].done = p.labs[i].done || false;
             }
         }
     } else { resetProgress(); }
@@ -256,20 +695,14 @@ function loadProgress() {
 
 function resetProgress() {
     userXP = 0; userLevel = 1;
-    for (var i = 0; i < lectures.length; i++) {
-        lectures[i].done = false;
-        lectures[i].cmdDone = [];
-    }
-    for (var i = 0; i < labs.length; i++) { labs[i].done = false; }
+    for (var i = 0; i < lectures.length; i++) { lectures[i].done = false; lectures[i].cmdDone = []; }
 }
 
 function addXP(amount) {
-    if (isGuest) return;
+    if (isGuest) { alert("⚠️ Гостевой режим: XP не начисляются. Зарегистрируйся!"); return; }
     userXP += amount;
     if (userXP >= userLevel * 200) { userLevel++; alert("🎉 Уровень " + userLevel + "!"); }
-    saveProgress();
-    updateUI();
-    updateUserInfo();
+    saveProgress(); updateUI(); updateUserInfo();
 }
 
 function updateUserInfo() {
@@ -277,58 +710,45 @@ function updateUserInfo() {
     if (!elem) return;
     var prog = 0;
     for (var i = 0; i < lectures.length; i++) { if (lectures[i].done) prog++; }
-    var labProg = 0;
-    for (var i = 0; i < labs.length; i++) { if (labs[i].done) labProg++; }
-    if (isGuest) {
-        elem.innerHTML = "👤 Гость | XP: " + userXP + " | 📚 " + prog + "/" + lectures.length;
-    } else {
-        elem.innerHTML = currentUser + " | ⚡" + userXP + " | 📚" + prog + "/" + lectures.length + " | ⚗️" + labProg + "/" + labs.length;
-    }
+    elem.innerHTML = isGuest ? "👤 Гость | XP: " + userXP : currentUser + " | ⚡" + userXP + " | 📚" + prog + "/" + lectures.length;
 }
 
-function updateUI() { renderCourse(); renderLabs(); renderProfile(); renderResources(); }
+function updateUI() { renderCourse(); renderPython(); renderFiles(); renderProfile(); }
 
 function register() {
     var users = getUsers();
     var name = document.getElementById("regUsername").value.trim();
     var pass = document.getElementById("regPassword").value;
     if (!name || !pass) { showError("Заполните поля!"); return; }
-    if (users[name]) { showError("Пользователь уже существует!"); return; }
+    if (users[name]) { showError("Пользователь существует!"); return; }
     users[name] = { password: pass };
     saveUsers(users);
     showLogin();
     document.getElementById("loginError").innerHTML = "✅ Аккаунт создан!";
 }
-
 function login() {
     var users = getUsers();
     var name = document.getElementById("loginUsername").value.trim();
     var pass = document.getElementById("loginPassword").value;
-    if (!users[name] || users[name].password !== pass) { showError("Неверное имя или пароль!"); return; }
+    if (!users[name] || users[name].password !== pass) { showError("Неверно!"); return; }
     currentUser = name; isGuest = false; loadProgress(); startDesktop();
 }
-
-function guestMode() { 
-    currentUser = "guest_" + Date.now(); 
-    isGuest = true; 
-    loadProgress(); 
-    startDesktop(); 
-}
-
+function guestMode() { currentUser = "guest_" + Date.now(); isGuest = true; loadProgress(); startDesktop(); }
 function logout() {
     if (!isGuest && currentUser) saveProgress();
     currentUser = null;
-    document.getElementById("kaliDesktop").style.display = "none";
+    document.getElementById("desktop").style.display = "none";
     document.getElementById("loginScreen").style.display = "flex";
 }
-
 function showError(m) { var e = document.getElementById("loginError"); if(e) e.innerHTML = m; setTimeout(function(){if(e) e.innerHTML="";},2000); }
 function showRegister() { document.getElementById("loginForm").style.display="none"; document.getElementById("registerForm").style.display="block"; }
 function showLogin() { document.getElementById("loginForm").style.display="block"; document.getElementById("registerForm").style.display="none"; }
 
 function startDesktop() {
     document.getElementById("loginScreen").style.display = "none";
-    document.getElementById("kaliDesktop").style.display = "block";
+    document.getElementById("desktop").style.display = "block";
+    loadUserFiles();
+    loadPythonCode();
     updateUI();
     initTerminal();
     makeDraggable();
@@ -344,48 +764,26 @@ function initTerminal() {
             var hist = document.getElementById("termHistory");
             if (!hist) return;
             hist.innerHTML += '└─$ ' + cmd + '\n';
-            
             var output = commandOutputs[cmd];
-            if (output === "CLEAR") {
-                hist.innerHTML = '┌──(kali㉿student)-[~]\n└─$ Терминал очищен\n';
-                hist = document.getElementById("termHistory");
-            } else if (output === "HELP") {
-                hist.innerHTML += '📋 ДОСТУПНЫЕ КОМАНДЫ:\n• whoami, ls -la, pwd — основы Linux\n• whois, theHarvester — OSINT\n• nmap -sS, -sV, -O, -sC, -A, -p- — сканирование\n• tcpdump — анализ трафика\n• hashcat — взлом хешей\n• airmon-ng — Wi-Fi\n• sqlmap, msfconsole — эксплуатация\n• ping, traceroute — сеть\n• iptables, gdb, objdump, openssl — защита и реверс\n';
-            } else if (output) {
-                hist.innerHTML += output + '\n';
-            } else {
-                hist.innerHTML += '❌ Команда не найдена. Введи help\n';
-            }
-            
-            // Проверка лекций
+            if (output === "CLEAR") { hist.innerHTML = '┌──(blackarch)-[~]\n└─$ '; hist = document.getElementById("termHistory"); }
+            else if (output === "HELP") { hist.innerHTML += '📋 КОМАНДЫ:\nwhoami, ls -la, pwd, nslookup google.com, ping google.com, whois google.com, nmap -sS localhost, clear\n📚 Открой КУРС для обучения!\n🐍 Открой PYTHON для программирования!\n'; }
+            else if (output) { hist.innerHTML += output + '\n'; }
+            else { hist.innerHTML += '❌ Команда не найдена. Введи help\n'; }
             for (var li = 0; li < lectures.length; li++) {
                 for (var ci = 0; ci < lectures[li].cmds.length; ci++) {
                     if (cmd === lectures[li].cmds[ci] && lectures[li].cmdDone.indexOf(ci) === -1) {
                         lectures[li].cmdDone.push(ci);
-                        hist.innerHTML += '✅ Команда из лекции ' + lectures[li].id + ' выполнена!\n';
+                        hist.innerHTML += '✅ Команда из ' + lectures[li].title + ' выполнена!\n';
                         if (lectures[li].cmdDone.length === lectures[li].cmds.length && !lectures[li].done) {
-                            lectures[li].done = true;
-                            addXP(lectures[li].xp);
-                            hist.innerHTML += '🎉 Лекция ' + lectures[li].id + ' пройдена! +' + lectures[li].xp + ' XP\n';
+                            lectures[li].done = true; addXP(lectures[li].xp);
+                            hist.innerHTML += '🎉 ' + lectures[li].title + ' пройден! +' + lectures[li].xp + ' XP\n';
                             renderCourse();
                         }
                         break;
                     }
                 }
             }
-            // Проверка лабораторных
-            for (var li = 0; li < labs.length; li++) {
-                if (cmd === labs[li].cmd && !labs[li].done) {
-                    labs[li].done = true;
-                    addXP(30);
-                    hist.innerHTML += '🎉 Лабораторная ' + labs[li].id + ' выполнена! +30 XP\n';
-                    renderLabs();
-                    break;
-                }
-            }
-            inp.value = "";
-            hist.scrollTop = hist.scrollHeight;
-            saveProgress();
+            inp.value = ""; hist.scrollTop = hist.scrollHeight; saveProgress();
         }
     });
 }
@@ -396,39 +794,16 @@ function renderCourse() {
     var doneCount = 0;
     for (var i = 0; i < lectures.length; i++) { if (lectures[i].done) doneCount++; }
     var percent = (doneCount / lectures.length) * 100;
-    var html = '<h1>📚 ПОЛНЫЙ КУРС — 16 ЛЕКЦИЙ</h1><div class="progress-bar"><div class="progress-fill" style="width:' + percent + '%"></div></div><p>Прогресс: ' + doneCount + '/' + lectures.length + ' лекций (' + Math.round(percent) + '%) | XP: ' + userXP + ' | Уровень: ' + userLevel + '</p>';
+    var html = '<h1>📚 ПОЛНЫЙ КУРС ЭТИЧНОГО ХАКИНГА + PYTHON</h1><div class="progress-bar"><div class="progress-fill" style="width:' + percent + '%"></div></div><p>Прогресс: ' + doneCount + '/' + lectures.length + ' модулей | XP: ' + userXP + ' | Уровень: ' + userLevel + '</p>';
     for (var i = 0; i < lectures.length; i++) {
         var l = lectures[i];
-        var cmdProgress = (l.cmdDone.length / l.cmds.length) * 100;
         if (l.done) {
-            html += '<div class="lesson-card" style="opacity:0.8;"><div class="badge">✅ Лекция ' + l.id + ' — ПРОЙДЕНА</div><h2>' + l.title + '</h2>' + l.theory + '<p style="color:#2ecc71;">🎉 +' + l.xp + ' XP</p></div>';
+            html += '<div class="lesson-card" style="opacity:0.8;"><div class="badge">✅ ' + l.title + ' — ПРОЙДЕН</div><h2>' + l.title + '</h2>' + l.theory + '<p style="color:#2ecc71;">🎉 +' + l.xp + ' XP</p></div>';
         } else {
-            html += '<div class="lesson-card"><div class="badge">📖 Лекция ' + l.id + ' (не пройдена)</div><h2>' + l.title + '</h2>' + l.theory + '<h3>💻 Практические команды:</h3><div class="cmd-box">';
-            for (var ci = 0; ci < l.cmds.length; ci++) {
-                var done = (l.cmdDone.indexOf(ci) !== -1);
-                html += '<div><span class="cmd">' + (done ? "✅" : "➡️") + " " + l.cmds[ci] + '</span></div>';
-            }
-            html += '</div><div class="progress-bar"><div class="progress-fill" style="width:' + cmdProgress + '%;background:#f39c12"></div></div>';
-            html += '<div class="small-note">💡 Введи эти команды в Терминал, чтобы пройти лекцию и получить XP!</div></div>';
-        }
-    }
-    container.innerHTML = html;
-}
-
-function renderLabs() {
-    var container = document.getElementById("labsContent");
-    if (!container) return;
-    var doneCount = 0;
-    for (var i = 0; i < labs.length; i++) { if (labs[i].done) doneCount++; }
-    var percent = (doneCount / labs.length) * 100;
-    var html = '<h1>⚗️ ЛАБОРАТОРНЫЕ РАБОТЫ — 14 ШТ</h1><div class="progress-bar"><div class="progress-fill" style="width:' + percent + '%"></div></div><p>Выполнено: ' + doneCount + '/' + labs.length + ' лаб (' + Math.round(percent) + '%)</p>';
-    for (var i = 0; i < labs.length; i++) {
-        var l = labs[i];
-        if (l.done) {
-            html += '<div class="lesson-card" style="opacity:0.8;"><div class="badge">✅ Лабораторная ' + l.id + ' — ВЫПОЛНЕНА</div><h2>' + l.name + '</h2><p>' + l.desc + '</p><p style="color:#2ecc71;">🎉 +30 XP</p></div>';
-        } else {
-            html += '<div class="lesson-card"><div class="badge">⚗️ Лабораторная ' + l.id + '</div><h2>' + l.name + '</h2><p>' + l.desc + '</p><div class="cmd-box"><span class="cmd">➡️ ' + l.cmd + '</span></div>';
-            html += '<div class="small-note">💡 Введи эту команду в Терминал для выполнения лабораторной работы.</div></div>';
+            html += '<div class="lesson-card"><div class="badge">📖 ' + l.title + '</div><h2>' + l.title + '</h2>' + l.theory;
+            if (l.cmds.length > 0) { html += '<h3>💻 Практические команды (введи в терминал 📟):</h3><div class="cmd-box">'; for (var ci = 0; ci < l.cmds.length; ci++) { var done = (l.cmdDone.indexOf(ci) !== -1); html += '<div><span class="cmd">' + (done ? "✅" : "➡️") + " " + l.cmds[ci] + '</span></div>'; } html += '</div>'; }
+            if (l.title.includes("Python") || l.title.includes("Калькулятор")) { html += '<div class="info-box"><strong>💡 Совет:</strong> Открой вкладку 🐍 PYTHON и попробуй написать код сам!</div>'; }
+            html += '</div>';
         }
     }
     container.innerHTML = html;
@@ -437,23 +812,36 @@ function renderLabs() {
 function renderProfile() {
     var container = document.getElementById("profileContent");
     if (!container) return;
-    var progLec = 0;
-    for (var i = 0; i < lectures.length; i++) { if (lectures[i].done) progLec++; }
-    var progLab = 0;
-    for (var i = 0; i < labs.length; i++) { if (labs[i].done) progLab++; }
-    var total = Math.round(((progLec + progLab) / (lectures.length + labs.length)) * 100);
+    var prog = 0; for (var i = 0; i < lectures.length; i++) { if (lectures[i].done) prog++; }
+    var total = Math.round((prog / lectures.length) * 100);
     var rank = "🌱 Новичок";
-    if (total >= 80) rank = "🏆 Профессионал (White Hat)";
+    if (total >= 80) rank = "🏆 Белый хакер";
     else if (total >= 60) rank = "🔥 Продвинутый";
     else if (total >= 40) rank = "📚 Основы";
-    else if (total >= 20) rank = "🌱 Стажёр";
-    container.innerHTML = '<h1>👤 ПРОФИЛЬ СТУДЕНТА</h1><div class="lesson-card"><strong>📛 Имя:</strong> ' + (currentUser || "Гость") + '<br><strong>⚡ XP:</strong> ' + userXP + '<br><strong>📈 Уровень:</strong> ' + userLevel + '<br><strong>📚 Лекций пройдено:</strong> ' + progLec + "/" + lectures.length + '<br><strong>⚗️ Лабораторных:</strong> ' + progLab + "/" + labs.length + '<br><strong>📊 Прогресс курса:</strong> ' + total + '%<div class="progress-bar"><div class="progress-fill" style="width:' + total + '%"></div></div><br><strong>🎖️ Статус:</strong> ' + rank + '<br><br><div class="small-note">🎓 Цель: пройти все 16 лекций и 14 лабораторных работ!<br>📧 По вопросам: 09m13isha@gmail.com</div></div>';
+    container.innerHTML = '<h1>👤 ПРОФИЛЬ СТУДЕНТА</h1><div class="lesson-card"><strong>📛 Имя:</strong> ' + (currentUser || "Гость") + '<br><strong>⚡ XP:</strong> ' + userXP + '<br><strong>📈 Уровень:</strong> ' + userLevel + '<br><strong>📚 Модулей пройдено:</strong> ' + prog + "/" + lectures.length + '<br><strong>📊 Прогресс курса:</strong> ' + total + '%<div class="progress-bar"><div class="progress-fill" style="width:' + total + '%"></div></div><br><strong>🎖️ Статус:</strong> ' + rank + '<br><br><div class="small-note">🎓 Цель: пройти все 14 модулей и получить сертификат белого хакера!<br>📧 По вопросам: 09m13isha@gmail.com</div></div>';
 }
 
-function renderResources() {
-    var container = document.getElementById("resourcesContent");
-    if (!container) return;
-    container.innerHTML = '<h1>⚙️ ПОЛЕЗНЫЕ РЕСУРСЫ</h1><div class="warning-box"><h3>⚠️ Ограничения тренажёра</h3><p>Тренажёр показывает эмуляцию вывода команд. Для реальной практики нужен настоящий Kali Linux на VirtualBox.</p></div><div class="success-box"><h3>🔥 Установи реальный Kali Linux</h3><p><strong>VirtualBox:</strong> https://www.virtualbox.org/<br><strong>Kali Linux:</strong> https://www.kali.org/get-kali/<br><strong>Metasploitable 2 (цель):</strong> https://sourceforge.net/projects/metasploitable/</p><h3>📚 Бесплатные платформы</h3><p><strong>TryHackMe:</strong> https://tryhackme.com<br><strong>Hack The Box:</strong> https://www.hackthebox.com<br><strong>PortSwigger Academy:</strong> https://portswigger.net/web-security<br><strong>OverTheWire:</strong> https://overthewire.org</p><h3>📡 Wi-Fi адаптеры</h3><p>Alfa AWUS036ACH, Panda PAU06, TP-Link TL-WN722N</p></div>';
+function makeDraggable() {
+    var windows = document.querySelectorAll(".window");
+    for (var i = 0; i < windows.length; i++) {
+        var win = windows[i];
+        var header = win.querySelector(".window-header");
+        if (!header) continue;
+        var isDrag = false, startX, startY, left, top;
+        header.addEventListener("mousedown", function(e) {
+            if (e.target.tagName === "SPAN") return;
+            isDrag = true; startX = e.clientX; startY = e.clientY;
+            left = win.offsetLeft; top = win.offsetTop;
+            win.style.zIndex = Date.now();
+            e.preventDefault();
+        });
+        document.addEventListener("mousemove", function(e) {
+            if (!isDrag) return;
+            win.style.left = (left + (e.clientX - startX)) + "px";
+            win.style.top = (top + (e.clientY - startY)) + "px";
+        });
+        document.addEventListener("mouseup", function() { isDrag = false; });
+    }
 }
 
 function openWindow(w) {
@@ -466,68 +854,35 @@ function openWindow(w) {
             var bar = document.getElementById("taskbarApps");
             if (bar) {
                 var html = "";
-                for (var i = 0; i < activeWindows.length; i++) {
-                    html += '<div class="taskbar-app" onclick="openWindow(\'' + activeWindows[i] + '\')">' + activeWindows[i] + '</div>';
-                }
+                for (var i = 0; i < activeWindows.length; i++) { html += '<div class="taskbar-app" onclick="openWindow(\'' + activeWindows[i] + '\')">' + activeWindows[i] + '</div>'; }
                 bar.innerHTML = html;
             }
         }
     }
     if (w === "course") renderCourse();
-    if (w === "labs") renderLabs();
+    if (w === "python") { renderPython(); loadPythonCode(); }
+    if (w === "files") renderFiles();
     if (w === "profile") renderProfile();
-    if (w === "resources") renderResources();
 }
-
 function closeWindow(w) {
     var win = document.getElementById(w + "Window");
     if (win) win.style.display = "none";
-    var newActive = [];
-    for (var i = 0; i < activeWindows.length; i++) {
-        if (activeWindows[i] !== w) newActive.push(activeWindows[i]);
-    }
-    activeWindows = newActive;
+    activeWindows = activeWindows.filter(function(v) { return v !== w; });
     var bar = document.getElementById("taskbarApps");
     if (bar) {
         var html = "";
-        for (var i = 0; i < activeWindows.length; i++) {
-            html += '<div class="taskbar-app" onclick="openWindow(\'' + activeWindows[i] + '\')">' + activeWindows[i] + '</div>';
-        }
+        for (var i = 0; i < activeWindows.length; i++) { html += '<div class="taskbar-app" onclick="openWindow(\'' + activeWindows[i] + '\')">' + activeWindows[i] + '</div>'; }
         bar.innerHTML = html;
     }
 }
-
-function makeDraggable() {
-    var windows = document.querySelectorAll(".window");
-    for (var i = 0; i < windows.length; i++) {
-        var win = windows[i];
-        var header = win.querySelector(".window-header");
-        if (!header) continue;
-        var isDrag = false, offX = 0, offY = 0;
-        header.addEventListener("mousedown", function(e) {
-            isDrag = true;
-            offX = e.clientX - win.offsetLeft;
-            offY = e.clientY - win.offsetTop;
-            win.style.zIndex = Date.now();
-        });
-        document.addEventListener("mousemove", function(e) {
-            if (isDrag) {
-                win.style.left = (e.clientX - offX) + "px";
-                win.style.top = (e.clientY - offY) + "px";
-            }
-        });
-        document.addEventListener("mouseup", function() { isDrag = false; });
-    }
-}
-
-function showStartMenu() { alert("🎓 KALI UNIVERSITY\nПолный курс этичного хакинга\n16 лекций | 14 лабораторных\nXP: " + userXP + "\nУровень: " + userLevel + "\n📧 09m13isha@gmail.com"); }
+function showStartMenu() { alert("🎓 BLACKARCH OS\nПолный курс этичного хакинга + Python\nXP: " + userXP + "\nУровень: " + userLevel + "\n📧 09m13isha@gmail.com"); }
 
 loadProgress();
 setTimeout(function() { initTerminal(); makeDraggable(); openWindow("terminal"); }, 100);
 </script>
 
-<div style="position:fixed; bottom:5px; right:5px; background:#000; padding:4px 12px; border-radius:20px; font-size:10px; z-index:9999; font-family:monospace;">
-🎓 16 лекций | 14 лаб | 144 часа | Вводи команды в терминал
+<div style="position:fixed; bottom:5px; right:5px; background:#000; padding:4px 12px; border-radius:20px; font-size:10px; z-index:9999;">
+🎓 14 модулей | 🐍 Python | 🛡️ Этичный хакинг | 09m13isha@gmail.com
 </div>
 </body>
 </html>
